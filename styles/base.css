@@ -1,0 +1,83 @@
+/* ============================================================
+   RESET & CSS VARIABLES
+   Shared across popup, location, and settings pages.
+   ============================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+:root {
+  --bg-gradient: linear-gradient(180deg, #070d1c 0%, #101a2f 100%);
+
+  --text-primary: #fffdf8;
+  --text-secondary: #eee7d8;
+  --text-muted: #858da0;
+
+  --card-bg: rgba(255, 253, 248, 0.035);
+  --card-border: rgba(255, 253, 248, 0.09);
+
+  --pill-bg: rgba(255, 253, 248, 0.06);
+  --pill-hover: rgba(255, 253, 248, 0.105);
+
+  --active-outline: #f1e4c7;
+}
+
+/* ============================================================
+   THEMES
+   ============================================================ */
+
+body.light-theme,
+body[data-theme="light"] {
+  --bg-gradient: linear-gradient(180deg, #fbfaf7 0%, #f1eee7 100%);
+
+  --text-primary: #0b1326;
+  --text-secondary: #4b5563;
+  --text-muted: #8b93a1;
+
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-border: rgba(11, 19, 38, 0.075);
+
+  --pill-bg: rgba(11, 19, 38, 0.045);
+  --pill-hover: rgba(11, 19, 38, 0.08);
+
+  --active-outline: #b7a477;
+}
+
+body.light-theme .prayer-card,
+body.light-theme .date-strip {
+  box-shadow: 0 2px 4px rgba(11, 19, 38, 0.035);
+}
+
+/* Icon visibility rules based on active theme */
+#icon-sun {
+  display: block;
+}
+
+#icon-moon {
+  display: none;
+}
+
+body[data-theme="light"] #icon-sun {
+  display: none;
+}
+
+body[data-theme="light"] #icon-moon {
+  display: block;
+}
+
+/* ============================================================
+   BASE BODY STYLES
+   Color/background/transition only — sizing and layout
+   (width, height, flex alignment) belong in each page's own
+   stylesheet, since popup/location/settings will differ.
+   ============================================================ */
+
+body {
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
+}

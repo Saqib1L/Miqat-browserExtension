@@ -5,7 +5,7 @@
   "manifest_version": 3,
   "action": {
     "default_title": "Open Miqat",
-    "default_popup": "popup.html",
+    "default_popup": "pages/popup/popup.html",
       "default_icon": {
         "16": "media/moon.png",
         "48": "media/moon.png",
