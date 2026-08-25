@@ -1,0 +1,30 @@
+{
+  "name": "",
+  "description": "",
+  "version": "1.0",
+  "manifest_version": 1,
+  "action": {
+    "default_title": "Open PrayerTimes",
+    "default_popup": "popup.html",
+      "default_icon": {
+        "16": "media/example.png",
+        "48": "media/example.png",
+        "128": "media/example.png"
+        }
+  },
+  "icons": {
+  "16": "media/example.png",
+  "48": "media/example.png",
+  "128": "media/example.png"
+  },
+  "permissions": [],
+  "background": {
+    "service_worker": ""
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [""],
+      "matches": [""]
+    }
+  ]
+}
