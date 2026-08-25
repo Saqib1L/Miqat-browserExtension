@@ -2,11 +2,6 @@ import { getStorage, setStorage } from './storage.js';
 
 export function applyTheme(theme) {
   document.body.setAttribute('data-theme', theme);
-  if (theme === 'light') {
-    document.body.classList.add('light-theme');
-  } else {
-    document.body.classList.remove('light-theme');
-  }
 }
 
 export async function initTheme() {
