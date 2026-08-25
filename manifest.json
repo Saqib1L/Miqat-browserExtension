@@ -1,5 +1,5 @@
 {
-  "name": "Islamic Prayer Times",
+  "name": "PrayerTimes",
   "description": "View Fajr, Dhuhr, Asr, Maghrib, and Isha times for your city in one click.",
   "version": "1.0",
   "manifest_version": 3,
@@ -17,14 +17,8 @@
   "48": "media/example.png",
   "128": "media/example.png"
   },
-  "permissions": ["storage", "geolocation"],
+  "permissions": ["storage", "geolocation", "alarms", "notifications"],
   "background": {
-    "service_worker": ""
-  },
-  "web_accessible_resources": [
-    {
-      "resources": [""],
-      "matches": [""]
-    }
-  ]
+    "service_worker": "scripts/background.js"
+  }
 }

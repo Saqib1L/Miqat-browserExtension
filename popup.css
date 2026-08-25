@@ -1,0 +1,339 @@
+/* ============================================================
+   RESET & CSS VARIABLES
+   ============================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+:root {
+  --bg-gradient: linear-gradient(180deg, #070d1c 0%, #101a2f 100%);
+  
+  --text-primary: #fffdf8;
+  --text-secondary: #eee7d8;
+  --text-muted: #858da0;
+  
+  --card-bg: rgba(255, 253, 248, 0.035);
+  --card-border: rgba(255, 253, 248, 0.09);
+  
+  --pill-bg: rgba(255, 253, 248, 0.06);
+  --pill-hover: rgba(255, 253, 248, 0.105);
+  
+  --active-outline: #f1e4c7;
+}
+
+/* ============================================================
+   THEMES
+   ============================================================ */
+
+body.light-theme,
+body[data-theme="light"] {
+  --bg-gradient: linear-gradient(180deg, #fbfaf7 0%, #f1eee7 100%);
+  
+  --text-primary: #0b1326;
+  --text-secondary: #4b5563;
+  --text-muted: #8b93a1;
+  
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-border: rgba(11, 19, 38, 0.075);
+  
+  --pill-bg: rgba(11, 19, 38, 0.045);
+  --pill-hover: rgba(11, 19, 38, 0.08);
+  
+  --active-outline: #b7a477;
+}
+
+body.light-theme .prayer-card,
+body.light-theme .date-strip {
+  box-shadow: 0 2px 4px rgba(11, 19, 38, 0.035);
+}
+
+/* Icon visibility rules based on active theme */
+#icon-sun {
+  display: block;
+}
+
+#icon-moon {
+  display: none;
+}
+
+body[data-theme="light"] #icon-sun {
+  display: none;
+}
+
+body[data-theme="light"] #icon-moon {
+  display: block;
+}
+
+/* ============================================================
+   BASE LAYOUT
+   ============================================================ */
+
+body {
+  width: 350px;  
+  height: 550px; 
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.extension-container {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* ============================================================
+   HEADER & NAVIGATION
+   ============================================================ */
+
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.location-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--pill-bg);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  transition: background 0.2s ease;
+}
+
+.location-wrapper .icon {
+  width: 12px;
+  height: 12px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-button {
+  background: var(--pill-bg);
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.icon-button:hover {
+  background: var(--pill-hover);
+  color: var(--text-primary);
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* ============================================================
+   HERO / CURRENT PRAYER STATUS
+   ============================================================ */
+
+.hero-section {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.current-prayer-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+}
+
+.next-prayer-countdown {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid var(--card-border);
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+/* ============================================================
+   DATE STRIP
+   ============================================================ */
+
+.date-strip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--card-bg);
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  margin-bottom: 8px;
+  gap: 6px;
+}
+
+.date-strip-header {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.today-pill {
+  background: transparent;
+  border: 1px solid var(--card-border);
+  color: var(--text-secondary);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.today-pill:hover {
+  background: var(--pill-hover);
+  color: var(--text-primary);
+  border-color: var(--active-outline);
+}
+
+.date-strip-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.date-nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.date-nav-btn:hover {
+  color: var(--text-primary);
+  background: var(--pill-hover);
+}
+
+.date-info {
+  text-align: center;
+}
+
+.gregorian-date {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.hijri-date {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* ============================================================
+   PRAYER SCHEDULE LIST
+   ============================================================ */
+
+.prayer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prayer-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.prayer-card:hover {
+  background: var(--pill-hover);
+}
+
+.prayer-card.active {
+  background: var(--card-bg);
+  border: 1.5px solid var(--active-outline);
+}
+
+.prayer-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.prayer-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.prayer-card.active .prayer-name {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.prayer-time-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.prayer-time {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.audio-toggle-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.audio-toggle-btn.muted {
+  color: var(--text-muted);
+}
+
+.audio-toggle-btn:hover {
+  color: var(--text-primary);
+}
