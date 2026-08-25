@@ -1,21 +1,21 @@
 {
-  "name": "PrayerTimes",
+  "name": "Miqat - Islamic Prayer Times",
   "description": "View Fajr, Dhuhr, Asr, Maghrib, and Isha times for your city in one click.",
   "version": "1.0",
   "manifest_version": 3,
   "action": {
-    "default_title": "Open PrayerTimes",
+    "default_title": "Open Miqat",
     "default_popup": "popup.html",
       "default_icon": {
-        "16": "media/example.png",
-        "48": "media/example.png",
-        "128": "media/example.png"
+        "16": "media/moon.png",
+        "48": "media/moon.png",
+        "128": "media/moon.png"
         }
   },
   "icons": {
-  "16": "media/example.png",
-  "48": "media/example.png",
-  "128": "media/example.png"
+  "16": "media/moon.png",
+  "48": "media/moon.png",
+  "128": "media/moon.png"
   },
   "permissions": ["storage", "geolocation", "alarms", "notifications"],
   "background": {
