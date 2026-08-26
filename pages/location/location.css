@@ -1,0 +1,364 @@
+@import url("../../styles/base.css");
+
+body {
+  width: 350px;
+  min-height: 550px;
+}
+
+.extension-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ===== Header ===== */
+
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.header-spacer {
+  width: 32px;
+}
+
+.icon-button {
+  background: var(--pill-bg);
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.icon-button:hover {
+  background: var(--pill-hover);
+  color: var(--text-primary);
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* ===== Current location card ===== */
+
+.current-location-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.current-location-card .icon {
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+/* ===== Sections ===== */
+
+.location-view {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.location-view.hidden {
+  display: none;
+}
+
+.section-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.section-heading .icon {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.section-heading h2 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.section-heading p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ===== Buttons ===== */
+
+.primary-btn,
+.confirm-btn,
+.secondary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.primary-btn {
+  background: var(--active-outline);
+  border: none;
+}
+
+.primary-btn .icon,
+.confirm-btn .icon {
+  color: inherit;
+}
+
+/* Dark is default; light overrides text color for contrast against
+   --active-outline, which flips between cream (dark) and navy (light) */
+.primary-btn {
+  color: #101a2f;
+}
+
+body[data-theme="light"] .primary-btn {
+  color: #fffdf8;
+}
+
+.primary-btn:hover {
+  opacity: 0.88;
+}
+
+.confirm-btn {
+  background: transparent;
+  border: 1px solid var(--card-border);
+  color: var(--text-muted);
+}
+
+.confirm-btn:not(:disabled) {
+  border-color: var(--active-outline);
+  color: var(--text-primary);
+}
+
+.confirm-btn:not(:disabled):hover {
+  background: var(--pill-hover);
+}
+
+.confirm-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.secondary-btn {
+  background: transparent;
+  border: 1px solid var(--card-border);
+  color: var(--text-secondary);
+}
+
+.secondary-btn:hover {
+  background: var(--pill-hover);
+  color: var(--text-primary);
+}
+
+/* ===== Status row ===== */
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.status-row .icon {
+  flex-shrink: 0;
+}
+
+.status-row.detected {
+  color: var(--text-primary);
+  border-color: var(--active-outline);
+}
+
+.status-row.error {
+  color: #d98c8c;
+  border-color: #d98c8c;
+}
+
+/* ===== Tip box ===== */
+
+.tip-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.tip-box__icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--pill-bg);
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tip-box p {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.tip-box strong {
+  color: var(--text-secondary);
+}
+
+/* ===== Manual address form ===== */
+
+.field-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.address-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.address-input-wrapper:focus-within {
+  border-color: var(--active-outline);
+}
+
+.address-input-wrapper .icon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.address-input-wrapper input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+}
+
+.address-input-wrapper input:focus {
+  outline: none;
+}
+
+.address-input-wrapper input::placeholder {
+  color: var(--text-faint, var(--text-muted));
+}
+
+.field-tip {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* ===== Search results ===== */
+
+.results-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 6px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.results-list.hidden {
+  display: none;
+}
+
+.results-list__count {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 6px 8px 2px;
+}
+
+.result-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.result-item:hover {
+  background: var(--pill-hover);
+}
+
+.result-item .icon {
+  color: var(--text-muted);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.result-item__name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.result-item__detail {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.result-item__check {
+  margin-left: auto;
+  color: var(--active-outline);
+  flex-shrink: 0;
+}
