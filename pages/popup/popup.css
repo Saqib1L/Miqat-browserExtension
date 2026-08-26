@@ -51,6 +51,12 @@ body {
   transition: background 0.2s ease;
 }
 
+.location-wrapper:hover {
+  background: var(--pill-hover);
+  color: var(--text-primary);
+}
+
+
 .location-wrapper .icon {
   width: 12px;
   height: 12px;
@@ -97,6 +103,54 @@ body {
    HERO / CURRENT PRAYER STATUS
    ============================================================ */
 
+/* ============================================================
+   DAY NAVIGATION ANIMATION
+   ============================================================ */
+
+.day-content {
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.day-content.slide-out-left {
+  transform: translateX(-16px);
+  opacity: 0;
+}
+
+.day-content.slide-out-right {
+  transform: translateX(16px);
+  opacity: 0;
+}
+
+.day-content.slide-in-from-right {
+  transform: translateX(16px);
+  opacity: 0;
+}
+
+.day-content.slide-in-from-left {
+  transform: translateX(-16px);
+  opacity: 0;
+}
+
+.today-pill.away-from-today {
+  background: var(--active-outline);
+  border-color: var(--active-outline);
+  font-weight: 700;
+  animation: today-pill-pulse 2s ease-in-out infinite;
+}
+
+.today-pill.away-from-today {
+  color: #101a2f;
+}
+
+body[data-theme="light"] .today-pill.away-from-today {
+  color: #fffdf8;
+}
+
+@keyframes today-pill-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
 .hero-section {
   text-align: center;
   margin: 15px 0;
@@ -140,6 +194,7 @@ body {
 .date-strip-header {
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
 }
 
@@ -155,6 +210,23 @@ body {
   border-radius: 10px;
   cursor: pointer;
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.today-pill__arrow {
+  width: 12px;
+  height: 12px;
+  display: none;
+}
+
+.today-pill.away-from-today.direction-left .today-pill__arrow--left {
+  display: block;
+}
+
+.today-pill.away-from-today.direction-right .today-pill__arrow--right {
+  display: block;
 }
 
 .today-pill:hover {

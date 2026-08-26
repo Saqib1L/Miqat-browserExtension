@@ -48,131 +48,148 @@
       </div>
     </header>
 
-    <!-- Current Prayer Status Display -->
-    <section class="hero-section">
-      <h1 class="current-prayer-title" id="currentPrayerName">Isha</h1>
-      <div class="next-prayer-countdown" id="nextPrayerCountdown">
-        07:23:47 until Fajr
-      </div>
-    </section>
+    <!-- Wraps dynamic day content for animations -->
+    <div class="day-content" id="dayContent">
 
-    <!-- Dates Indicator Strip -->
-    <div class="date-strip">
-      <div class="date-strip-header">
-        <button class="today-pill" id="todayBtn">Today</button>
-      </div>
-      <div class="date-strip-body">
-        <button class="date-nav-btn" id="prevDateBtn" aria-label="Previous Day">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-        </button>
-        <div class="date-info">
-          <div class="gregorian-date" id="gregorianDate">Tuesday, 25 August</div>
-          <div class="hijri-date" id="hijriDate">12 Rabi' Al-Awwal 1448 AH</div>
+      <!-- Current Prayer Status Display -->
+      <section class="hero-section">
+        <h1 class="current-prayer-title" id="currentPrayerName">Isha</h1>
+        <div class="next-prayer-countdown" id="nextPrayerCountdown">
+          07:23:47 until Fajr
         </div>
-        <button class="date-nav-btn" id="nextDateBtn" aria-label="Next Day">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </button>
-      </div>
-    </div>
+      </section>
 
-    <!-- Prayer Schedule List -->
-    <main class="prayer-list">
-      <div class="prayer-card" data-prayer="fajr">
-        <div class="prayer-info">
-          <span class="prayer-name">Fajr</span>
+      <!-- Dates Indicator Strip -->
+      <div class="date-strip">
+        <!-- Top Row: Today Pill -->
+        <div class="date-strip-header">
+          <button class="today-pill" id="todayBtn">
+            <svg class="today-pill__arrow today-pill__arrow--left icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            <span>Today</span>
+            <svg class="today-pill__arrow today-pill__arrow--right icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
         </div>
-        <div class="prayer-time-group">
-          <span class="prayer-time">3:54 AM</span>
-          <button class="audio-toggle-btn" aria-label="Toggle Notification Audio">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+
+        <!-- Bottom Row: Navigation Arrows & Dates -->
+        <div class="date-strip-body">
+          <button class="date-nav-btn" id="prevDateBtn" aria-label="Previous Day">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <div class="date-info">
+            <div class="gregorian-date" id="gregorianDate">Tuesday, 25 August</div>
+            <div class="hijri-date" id="hijriDate">12 Rabi' Al-Awwal 1448 AH</div>
+          </div>
+          <button class="date-nav-btn" id="nextDateBtn" aria-label="Next Day">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
           </button>
         </div>
       </div>
 
-      <div class="prayer-card" data-prayer="sunrise">
-        <div class="prayer-info">
-          <span class="prayer-name">Sunrise</span>
+      <!-- Prayer Schedule List -->
+      <main class="prayer-list">
+        <div class="prayer-card" data-prayer="fajr">
+          <div class="prayer-info">
+            <span class="prayer-name">Fajr</span>
+          </div>
+          <div class="prayer-time-group">
+            <span class="prayer-time">3:54 AM</span>
+            <button class="audio-toggle-btn" aria-label="Toggle Notification Audio">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+              </svg>
+            </button>
+          </div>
         </div>
-        <div class="prayer-time-group">
-          <span class="prayer-time">5:14 AM</span>
-          <button class="audio-toggle-btn muted" aria-label="Toggle Notification Audio">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-              <line x1="23" y1="9" x2="17" y2="15"/>
-              <line x1="17" y1="9" x2="23" y2="15"/>
-            </svg>
-          </button>
-        </div>
-      </div>
 
-      <div class="prayer-card" data-prayer="dhuhr">
-        <div class="prayer-info">
-          <span class="prayer-name">Dhuhr</span>
+        <div class="prayer-card" data-prayer="sunrise">
+          <div class="prayer-info">
+            <span class="prayer-name">Sunrise</span>
+          </div>
+          <div class="prayer-time-group">
+            <span class="prayer-time">5:14 AM</span>
+            <button class="audio-toggle-btn muted" aria-label="Toggle Notification Audio">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                <line x1="23" y1="9" x2="17" y2="15"/>
+                <line x1="17" y1="9" x2="23" y2="15"/>
+              </svg>
+            </button>
+          </div>
         </div>
-        <div class="prayer-time-group">
-          <span class="prayer-time">11:45 AM</span>
-          <button class="audio-toggle-btn" aria-label="Toggle Notification Audio">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
-            </svg>
-          </button>
-        </div>
-      </div>
 
-      <div class="prayer-card" data-prayer="asr">
-        <div class="prayer-info">
-          <span class="prayer-name">Asr</span>
+        <div class="prayer-card" data-prayer="dhuhr">
+          <div class="prayer-info">
+            <span class="prayer-name">Dhuhr</span>
+          </div>
+          <div class="prayer-time-group">
+            <span class="prayer-time">11:45 AM</span>
+            <button class="audio-toggle-btn" aria-label="Toggle Notification Audio">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+              </svg>
+            </button>
+          </div>
         </div>
-        <div class="prayer-time-group">
-          <span class="prayer-time">3:10 PM</span>
-          <button class="audio-toggle-btn" aria-label="Toggle Notification Audio">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
-            </svg>
-          </button>
-        </div>
-      </div>
 
-      <div class="prayer-card" data-prayer="maghrib">
-        <div class="prayer-info">
-          <span class="prayer-name">Maghrib</span>
+        <div class="prayer-card" data-prayer="asr">
+          <div class="prayer-info">
+            <span class="prayer-name">Asr</span>
+          </div>
+          <div class="prayer-time-group">
+            <span class="prayer-time">3:10 PM</span>
+            <button class="audio-toggle-btn" aria-label="Toggle Notification Audio">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+              </svg>
+            </button>
+          </div>
         </div>
-        <div class="prayer-time-group">
-          <span class="prayer-time">6:07 PM</span>
-          <button class="audio-toggle-btn" aria-label="Toggle Notification Audio">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
-            </svg>
-          </button>
-        </div>
-      </div>
 
-      <div class="prayer-card active" data-prayer="isha">
-        <div class="prayer-info">
-          <span class="prayer-name">Isha</span>
+        <div class="prayer-card" data-prayer="maghrib">
+          <div class="prayer-info">
+            <span class="prayer-name">Maghrib</span>
+          </div>
+          <div class="prayer-time-group">
+            <span class="prayer-time">6:07 PM</span>
+            <button class="audio-toggle-btn" aria-label="Toggle Notification Audio">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+              </svg>
+            </button>
+          </div>
         </div>
-        <div class="prayer-time-group">
-          <span class="prayer-time">7:17 PM</span>
-          <button class="audio-toggle-btn" aria-label="Toggle Notification Audio">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
-            </svg>
-          </button>
+
+        <div class="prayer-card active" data-prayer="isha">
+          <div class="prayer-info">
+            <span class="prayer-name">Isha</span>
+          </div>
+          <div class="prayer-time-group">
+            <span class="prayer-time">7:17 PM</span>
+            <button class="audio-toggle-btn" aria-label="Toggle Notification Audio">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+              </svg>
+            </button>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+
+    </div><!-- /.day-content -->
   </div>
+
   <script src="../../lib/adhan.umd.min.js"></script>
   <script type="module" src="popup.js"></script>
 </body>
