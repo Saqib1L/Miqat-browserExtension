@@ -56,7 +56,6 @@ body {
   color: var(--text-primary);
 }
 
-
 .location-wrapper .icon {
   width: 12px;
   height: 12px;
@@ -100,10 +99,6 @@ body {
 }
 
 /* ============================================================
-   HERO / CURRENT PRAYER STATUS
-   ============================================================ */
-
-/* ============================================================
    DAY NAVIGATION ANIMATION
    ============================================================ */
 
@@ -130,6 +125,27 @@ body {
   transform: translateX(-16px);
   opacity: 0;
 }
+
+/* Mirror slide directions in RTL */
+[dir="rtl"] .day-content.slide-out-left {
+  transform: translateX(16px);
+}
+
+[dir="rtl"] .day-content.slide-out-right {
+  transform: translateX(-16px);
+}
+
+[dir="rtl"] .day-content.slide-in-from-right {
+  transform: translateX(-16px);
+}
+
+[dir="rtl"] .day-content.slide-in-from-left {
+  transform: translateX(16px);
+}
+
+/* ============================================================
+   TODAY PILL
+   ============================================================ */
 
 .today-pill.away-from-today {
   background: var(--active-outline);
@@ -229,6 +245,11 @@ body[data-theme="light"] .today-pill.away-from-today {
   display: block;
 }
 
+/* Flip pill arrows in RTL */
+[dir="rtl"] .today-pill__arrow {
+  transform: scaleX(-1);
+}
+
 .today-pill:hover {
   background: var(--pill-hover);
   color: var(--text-primary);
@@ -258,6 +279,11 @@ body[data-theme="light"] .today-pill.away-from-today {
 .date-nav-btn:hover {
   color: var(--text-primary);
   background: var(--pill-hover);
+}
+
+/* Flip prev/next chevrons in RTL */
+[dir="rtl"] .date-nav-btn .icon {
+  transform: scaleX(-1);
 }
 
 .date-info {

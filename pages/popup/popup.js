@@ -1,5 +1,8 @@
 import { initTheme } from "../../scripts/theme.js";
 import { getStorage } from "../../scripts/storage.js";
+import { getSettings } from "../../scripts/settings-store.js";
+import { formatHijriDate } from "../../scripts/hijri.js";
+import { getLanguage, t, tf, applyTranslations } from "../../scripts/translation.js";
 import {
   calculatePrayerTimes,
   getCurrentPrayer,
@@ -10,47 +13,60 @@ import {
 
 initTheme();
 
-const PRAYER_LABELS = {
-  fajr: 'Fajr',
-  sunrise: 'Sunrise',
-  dhuhr: 'Dhuhr',
-  asr: 'Asr',
-  maghrib: 'Maghrib',
-  isha: 'Isha',
+const PRAYER_KEYS = [
+  "fajr",
+  "sunrise",
+  "dhuhr",
+  "asr",
+  "maghrib",
+  "isha",
+];
+
+const els = {
+  settingsBtn: document.getElementById("settingsBtn"),
+  userLocation: document.getElementById("userLocation"),
+  locationText: document.querySelector("#userLocation .location-text"),
+  dayContent: document.getElementById("dayContent"),
+  todayBtn: document.getElementById("todayBtn"),
+  prevDateBtn: document.getElementById("prevDateBtn"),
+  nextDateBtn: document.getElementById("nextDateBtn"),
+  currentPrayerName: document.getElementById("currentPrayerName"),
+  nextPrayerCountdown: document.getElementById("nextPrayerCountdown"),
+  gregorianDate: document.getElementById("gregorianDate"),
+  hijriDate: document.getElementById("hijriDate"),
 };
 
-const settingsBtn = document.getElementById('settingsBtn');
-const userLocationEl = document.getElementById('userLocation');
-const dayContent = document.getElementById('dayContent');
-const todayBtn = document.getElementById('todayBtn');
-const prevDateBtn = document.getElementById('prevDateBtn');
-const nextDateBtn = document.getElementById('nextDateBtn');
-
 let dayOffset = 0;
+let countdownTimer = null;
+let settings = null;
+let lang = "en";
+
 const ANIMATION_MS = 220;
 
-settingsBtn.addEventListener('click', () => {
-  window.location.href = '../settings/settings.html';
+els.settingsBtn.addEventListener("click", () => {
+  window.location.href = "../settings/settings.html";
 });
 
-userLocationEl.addEventListener('click', () => {
-  window.location.href = '../location/location.html';
+els.userLocation.addEventListener("click", () => {
+  window.location.href = "../location/location.html";
 });
 
-nextDateBtn.addEventListener('click', () => {
+els.nextDateBtn.addEventListener("click", () => {
   dayOffset += 1;
-  navigateWithAnimation('next');
+  navigateWithAnimation("next");
 });
 
-prevDateBtn.addEventListener('click', () => {
+els.prevDateBtn.addEventListener("click", () => {
   dayOffset -= 1;
-  navigateWithAnimation('prev');
+  navigateWithAnimation("prev");
 });
 
-todayBtn.addEventListener('click', () => {
+els.todayBtn.addEventListener("click", () => {
   if (dayOffset === 0) return;
-  const direction = dayOffset > 0 ? 'prev' : 'next';
+
+  const direction = dayOffset > 0 ? "prev" : "next";
   dayOffset = 0;
+
   navigateWithAnimation(direction);
 });
 
@@ -61,89 +77,162 @@ function getSelectedDate() {
 }
 
 function navigateWithAnimation(direction) {
-  const outClass = direction === 'next' ? 'slide-out-left' : 'slide-out-right';
-  const inClass = direction === 'next' ? 'slide-in-from-right' : 'slide-in-from-left';
+  const outClass =
+    direction === "next" ? "slide-out-left" : "slide-out-right";
 
-  dayContent.classList.add(outClass);
+  const inClass =
+    direction === "next"
+      ? "slide-in-from-right"
+      : "slide-in-from-left";
+
+  els.dayContent.classList.add(outClass);
 
   setTimeout(async () => {
     await renderPrayerTimes();
 
-    dayContent.classList.remove(outClass);
-    dayContent.classList.add(inClass);
+    els.dayContent.classList.remove(outClass);
+    els.dayContent.classList.add(inClass);
 
-    void dayContent.offsetWidth; // force reflow so the next class change transitions
+    void els.dayContent.offsetWidth;
 
-    dayContent.classList.remove(inClass);
+    els.dayContent.classList.remove(inClass);
   }, ANIMATION_MS);
 }
 
 async function renderPrayerTimes() {
-  const { location } = await getStorage('location');
+  clearCountdown();
 
-  todayBtn.classList.toggle('away-from-today', dayOffset !== 0);
-  todayBtn.classList.toggle('direction-left', dayOffset > 0);
-  todayBtn.classList.toggle('direction-right', dayOffset < 0);
+  const [{ location }, loadedSettings, loadedLang] = await Promise.all([
+    getStorage("location"),
+    getSettings(),
+    getLanguage(),
+  ]);
+  settings = loadedSettings;
+  lang = loadedLang;
+  applyTranslations(lang);
+
+  els.todayBtn.classList.toggle("away-from-today", dayOffset !== 0);
+  els.todayBtn.classList.toggle("direction-left", dayOffset > 0);
+  els.todayBtn.classList.toggle("direction-right", dayOffset < 0);
 
   if (!location) {
-    document.getElementById('currentPrayerName').textContent = 'No location set';
-    document.getElementById('nextPrayerCountdown').textContent = '';
-    userLocationEl.querySelector('.location-text').textContent = 'Tap to set location';
+    els.currentPrayerName.textContent = "No location set";
+    els.nextPrayerCountdown.textContent = "";
+    els.locationText.textContent = "Tap to set location";
+
+    highlightActivePrayer(null);
     return;
   }
 
-  userLocationEl.querySelector('.location-text').textContent = location.label || 'Current Location';
-  userLocationEl.title = location.label || 'Current Location';
+  const locationLabel = location.label || "Current Location";
+
+  els.locationText.textContent = locationLabel;
+  els.userLocation.title = locationLabel;
 
   const selectedDate = getSelectedDate();
   const isToday = dayOffset === 0;
-  const prayerTimes = calculatePrayerTimes(location, selectedDate);
+  const prayerTimes = calculatePrayerTimes(location, selectedDate, settings);
 
   if (isToday) {
-    const now = new Date();
-    const current = getCurrentPrayer(prayerTimes, now);
-    const next = getNextPrayer(prayerTimes, location, now);
-
-    document.getElementById('currentPrayerName').textContent = PRAYER_LABELS[current];
-    document.getElementById('nextPrayerCountdown').textContent =
-      `${PRAYER_LABELS[next.name]} in ${formatCountdown(next.millisUntil)}`;
-
-    highlightActivePrayer(current);
+    renderToday(prayerTimes, location);
   } else {
-    document.getElementById('currentPrayerName').textContent = selectedDate.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-    });
-    document.getElementById('nextPrayerCountdown').textContent =
-      dayOffset > 0 ? 'Upcoming day' : 'Past day';
-
-    highlightActivePrayer(null);
+    renderOtherDay(selectedDate);
   }
 
-  document.getElementById('gregorianDate').textContent = selectedDate.toLocaleDateString('en-US', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-  });
-  document.getElementById('hijriDate').textContent = new Intl.DateTimeFormat(
-    'en-US-u-ca-islamic',
-    { day: 'numeric', month: 'long', year: 'numeric' }
-  ).format(selectedDate);
+  renderDates(selectedDate);
+  renderPrayerCards(prayerTimes);
+}
 
-  ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'].forEach((prayer) => {
-    const card = document.querySelector(`.prayer-card[data-prayer="${prayer}"]`);
+function renderToday(prayerTimes, location) {
+  const now = new Date();
+  const current = getCurrentPrayer(prayerTimes, now);
+  const next = getNextPrayer(prayerTimes, location, now, settings);
+
+  els.currentPrayerName.textContent = t(current, lang);
+
+  highlightActivePrayer(current);
+
+  startCountdown(prayerTimes, next, location);
+}
+
+function renderOtherDay(selectedDate) {
+  els.currentPrayerName.textContent = selectedDate.toLocaleDateString(
+    "en-US",
+    {
+      month: "short",
+      day: "numeric",
+    }
+  );
+
+  els.nextPrayerCountdown.textContent =
+    dayOffset > 0 ? "Upcoming day" : "Past day";
+
+  highlightActivePrayer(null);
+}
+
+function renderDates(selectedDate) {
+  els.gregorianDate.textContent = selectedDate.toLocaleDateString("en-US", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
+
+  els.hijriDate.textContent = formatHijriDate(
+    selectedDate,
+    settings?.hijriAdjustment ?? 0
+  );
+}
+
+function renderPrayerCards(prayerTimes) {
+  PRAYER_KEYS.forEach((prayer) => {
+    const card = document.querySelector(
+      `.prayer-card[data-prayer="${prayer}"]`
+    );
+
     if (!card) return;
-    card.querySelector('.prayer-time').textContent = formatTime(prayerTimes[prayer]);
+
+    card.querySelector(".prayer-time").textContent =
+      formatTime(prayerTimes[prayer]);
   });
 }
 
+function startCountdown(prayerTimes, next, location) {
+  const updateCountdown = () => {
+    const now = new Date();
+    const latestNext = getNextPrayer(prayerTimes, location, now, settings);
+
+    if (
+      latestNext.name !== next.name ||
+      latestNext.millisUntil <= 0
+    ) {
+      renderPrayerTimes();
+      return;
+    }
+
+    els.nextPrayerCountdown.textContent = tf("countdown", lang, {
+      time: formatCountdown(latestNext.millisUntil),
+      prayer: t(latestNext.name, lang),
+    });
+  };
+
+  updateCountdown();
+  countdownTimer = setInterval(updateCountdown, 1000);
+}
+
+function clearCountdown() {
+  if (countdownTimer) {
+    clearInterval(countdownTimer);
+    countdownTimer = null;
+  }
+}
+
 function highlightActivePrayer(activePrayer) {
-  document.querySelectorAll('.prayer-card').forEach((card) => {
-    card.classList.toggle('active', card.dataset.prayer === activePrayer);
+  document.querySelectorAll(".prayer-card").forEach((card) => {
+    card.classList.toggle(
+      "active",
+      card.dataset.prayer === activePrayer
+    );
   });
 }
 
 renderPrayerTimes();
-setInterval(() => {
-  if (dayOffset === 0) renderPrayerTimes();
-}, 1000);

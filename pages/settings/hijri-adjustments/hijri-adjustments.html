@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hijri Date Adjustment — Miqat</title>
+  <link rel="stylesheet" href="../settings.css">
+</head>
+<body>
+  <div class="extension-container">
+    <header class="topbar">
+      <button class="icon-button" id="backBtn" aria-label="Back">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <h1 class="topbar__title">Hijri Date Adjustment</h1>
+    </header>
+    <div class="info-box">Adjust the displayed Hijri date by ±3 days to match your local moon sighting authority.</div>
+    <div class="stepper-list">
+      <div class="stepper-row" style="justify-content: center; gap: 24px; padding: 24px 12px;">
+        <button class="stepper__btn" id="decBtn" aria-label="Decrease by 1 day" style="width:40px;height:40px;font-size:1.2rem;">−</button>
+        <span class="stepper__value" id="hijriValue" style="font-size:1.3rem;min-width:60px;">0</span>
+        <button class="stepper__btn" id="incBtn" aria-label="Increase by 1 day" style="width:40px;height:40px;font-size:1.2rem;">+</button>
+      </div>
+      <p class="page-hint" style="text-align:center;">days offset (−3 to +3)</p>
+
+      <div class="stepper-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
+        <span class="stepper-row__label">Today<span class="stepper-row__preview" id="todayGregorian"></span></span>
+        <span class="stepper-row__label" id="todayHijri" style="font-weight:600;"></span>
+        <span class="stepper-row__preview" id="todayHijriBase"></span>
+      </div>
+
+      <div class="stepper-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
+        <span class="stepper-row__label">Tomorrow<span class="stepper-row__preview" id="tomorrowGregorian"></span></span>
+        <span class="stepper-row__label" id="tomorrowHijri" style="font-weight:600;"></span>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="hijri-adjustments.js"></script>
+</body>
+</html>

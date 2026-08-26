@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — Miqat</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <div class="extension-container">
+    <header class="topbar">
+      <button class="icon-button" id="backBtn" aria-label="Back">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <h1 class="topbar__title" data-i18n="settingsTitle">Settings</h1>
+    </header>
+
+    <nav class="settings-list">
+
+      <div class="settings-section-label">Display</div>
+
+      <a class="settings-row" href="language/language.html">
+        <span class="settings-row__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </span>
+        <span class="settings-row__body">
+          <span class="settings-row__label" data-i18n="languageLabel">Language</span>
+          <span class="settings-row__value" id="currentLang"></span>
+        </span>
+        <svg class="settings-row__chevron icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </a>
+
+      <div class="settings-divider"></div>
+      <div class="settings-section-label">Calculation</div>
+
+      <a class="settings-row" href="madhab/madhab.html">
+        <span class="settings-row__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+        </span>
+        <span class="settings-row__body">
+          <span class="settings-row__label">Madhab (Asr)</span>
+          <span class="settings-row__value" id="currentMadhab"></span>
+        </span>
+        <svg class="settings-row__chevron icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </a>
+
+      <a class="settings-row" href="prayer-adjustments/prayer-adjustments.html">
+        <span class="settings-row__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </span>
+        <span class="settings-row__body">
+          <span class="settings-row__label">Prayer Time Adjustments</span>
+          <span class="settings-row__value" id="currentAdjustments"></span>
+        </span>
+        <svg class="settings-row__chevron icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </a>
+
+      <a class="settings-row" href="hijri-adjustments/hijri-adjustments.html">
+        <span class="settings-row__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </span>
+        <span class="settings-row__body">
+          <span class="settings-row__label">Hijri Date Adjustment</span>
+          <span class="settings-row__value" id="currentHijri"></span>
+        </span>
+        <svg class="settings-row__chevron icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </a>
+
+      <div class="settings-divider"></div>
+      <div class="settings-section-label">Alerts</div>
+
+      <a class="settings-row" href="notifications/notifications.html">
+        <span class="settings-row__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </span>
+        <span class="settings-row__body">
+          <span class="settings-row__label">Notifications</span>
+          <span class="settings-row__value" id="currentNotifications"></span>
+        </span>
+        <svg class="settings-row__chevron icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </a>
+
+      <div class="settings-divider"></div>
+      <div class="settings-section-label">Advanced</div>
+
+      <a class="settings-row" href="calculation-method/calculation-method.html">
+        <span class="settings-row__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </span>
+        <span class="settings-row__body">
+          <span class="settings-row__label">Calculation Method</span>
+          <span class="settings-row__value" id="currentMethod"></span>
+        </span>
+        <svg class="settings-row__chevron icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </a>
+
+      <a class="settings-row" href="custom-angles/custom-angles.html">
+        <span class="settings-row__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 20h18"/>
+            <path d="M3 20L21 6"/>
+            <path d="M3 20a14 14 0 0 0 6-3"/>
+          </svg>
+        </span>
+        <span class="settings-row__body">
+          <span class="settings-row__label">Custom Angles</span>
+          <span class="settings-row__value" id="currentAngles"></span>
+        </span>
+        <svg class="settings-row__chevron icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </a>
+
+      <a class="settings-row" href="high-latitude/high-latitude.html">
+        <span class="settings-row__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="2" x2="12" y2="6"/>
+            <line x1="12" y1="18" x2="12" y2="22"/>
+          </svg>
+        </span>
+        <span class="settings-row__body">
+          <span class="settings-row__label">High Latitude Rule</span>
+          <span class="settings-row__value" id="currentHighLatitude"></span>
+        </span>
+        <svg class="settings-row__chevron icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </a>
+
+    </nav>
+  </div>
+
+  <script type="module" src="settings.js"></script>
+</body>
+</html>

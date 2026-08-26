@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Angles — Miqat</title>
+  <link rel="stylesheet" href="../settings.css">
+</head>
+<body>
+  <div class="extension-container">
+    <header class="topbar">
+      <button class="icon-button" id="backBtn" aria-label="Back">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <h1 class="topbar__title">Custom Angles</h1>
+    </header>
+
+    <div class="info-box">Fajr and Isha are derived from the sun's depression below the horizon. Leave this on Auto set to use the angles of your calculation method, or turn it off to enter your own.</div>
+
+    <div class="toggle-list">
+      <div class="toggle-row">
+        <span class="toggle-row__label">Auto set</span>
+        <label class="toggle">
+          <input type="checkbox" id="autoToggle">
+          <span class="toggle__track"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="stepper-list" id="angleList">
+      <div class="stepper-row">
+        <span class="stepper-row__label">Fajr angle<span class="stepper-row__preview" id="fajrPreview"></span></span>
+        <div class="stepper" data-angle="fajrAngle">
+          <button class="stepper__btn" data-action="dec" aria-label="Decrease Fajr angle">−</button>
+          <span class="stepper__value" id="fajrAngleValue">18°</span>
+          <button class="stepper__btn" data-action="inc" aria-label="Increase Fajr angle">+</button>
+        </div>
+      </div>
+      <div class="stepper-row">
+        <span class="stepper-row__label">Isha angle<span class="stepper-row__preview" id="ishaPreview"></span></span>
+        <div class="stepper" data-angle="ishaAngle">
+          <button class="stepper__btn" data-action="dec" aria-label="Decrease Isha angle">−</button>
+          <span class="stepper__value" id="ishaAngleValue">17°</span>
+          <button class="stepper__btn" data-action="inc" aria-label="Increase Isha angle">+</button>
+        </div>
+      </div>
+      <p class="page-hint" id="angleHint"></p>
+    </div>
+  </div>
+
+  <script src="../../../lib/adhan.umd.min.js"></script>
+  <script type="module" src="custom-angles.js"></script>
+</body>
+</html>

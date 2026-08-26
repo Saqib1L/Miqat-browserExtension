@@ -27,6 +27,9 @@ body[data-theme="dark"] {
   --active-outline: #f1e4c7;
 
   --accent-navy: #101a2f;
+
+  --scrollbar-thumb: rgba(255, 253, 248, 0.15);
+  --scrollbar-thumb-hover: rgba(255, 253, 248, 0.3);
 }
 
 /* ============================================================
@@ -48,6 +51,9 @@ body[data-theme="light"] {
   --pill-hover: rgba(11, 19, 38, 0.08);
 
   --active-outline: #101a2f;
+
+  --scrollbar-thumb: rgba(11, 19, 38, 0.15);
+  --scrollbar-thumb-hover: rgba(11, 19, 38, 0.3);
 }
 
 body[data-theme="light"] .prayer-card,
@@ -74,13 +80,31 @@ body[data-theme="light"] #icon-moon {
 
 /* ============================================================
    BASE BODY STYLES
-   Color/background/transition only — sizing and layout
-   (width, height, flex alignment) belong in each page's own
-   stylesheet, since popup/location/settings will differ.
    ============================================================ */
 
 body {
   background: var(--bg-gradient);
   color: var(--text-primary);
   transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ============================================================
+   SCROLLBARS
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
 }

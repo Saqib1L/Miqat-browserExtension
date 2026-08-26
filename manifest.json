@@ -19,6 +19,7 @@
   },
   "permissions": ["storage", "geolocation", "alarms", "notifications"],
   "background": {
-    "service_worker": "scripts/background.js"
+    "service_worker": "scripts/background.js",
+     "type": "module"
   }
 }

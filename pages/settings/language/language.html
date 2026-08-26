@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Language — Miqat</title>
+  <link rel="stylesheet" href="../settings.css">
+</head>
+<body>
+  <div class="extension-container">
+    <header class="topbar">
+      <button class="icon-button" id="backBtn" aria-label="Back">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <h1 class="topbar__title" data-i18n="languageLabel">Language</h1>
+    </header>
+    <p class="page-hint" data-i18n="languageHint">Choose how Miqat is displayed.</p>
+    <div id="langGroup" class="option-list" role="radiogroup"></div>
+  </div>
+  <script type="module" src="language.js"></script>
+</body>
+</html>

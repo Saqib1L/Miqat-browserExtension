@@ -16,7 +16,7 @@
           <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
           <circle cx="12" cy="10" r="3"/>
         </svg>
-        <span class="location-text">Road 902, Riffa</span>
+       <span class="location-text" id="locationText" data-i18n="locating">Locating…</span>
       </div>
       
       <div class="header-actions">
@@ -39,7 +39,7 @@
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>
         </button>
-        <button class="icon-button" id="settingsBtn" aria-label="Settings">
+        <button class="icon-button" id="settingsBtn" data-i18n-aria="settingsTitle" aria-label="Settings">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="3"/>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
@@ -67,7 +67,7 @@
             <svg class="today-pill__arrow today-pill__arrow--left icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
-            <span>Today</span>
+            <span data-i18n="today">Today</span>
             <svg class="today-pill__arrow today-pill__arrow--right icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
@@ -97,7 +97,7 @@
       <main class="prayer-list">
         <div class="prayer-card" data-prayer="fajr">
           <div class="prayer-info">
-            <span class="prayer-name">Fajr</span>
+            <span class="prayer-name" data-i18n="fajr">Fajr</span>
           </div>
           <div class="prayer-time-group">
             <span class="prayer-time">3:54 AM</span>
@@ -112,7 +112,7 @@
 
         <div class="prayer-card" data-prayer="sunrise">
           <div class="prayer-info">
-            <span class="prayer-name">Sunrise</span>
+            <span class="prayer-name" data-i18n="sunrise">Sunrise</span>
           </div>
           <div class="prayer-time-group">
             <span class="prayer-time">5:14 AM</span>
@@ -128,7 +128,7 @@
 
         <div class="prayer-card" data-prayer="dhuhr">
           <div class="prayer-info">
-            <span class="prayer-name">Dhuhr</span>
+            <span class="prayer-name" data-i18n="dhuhr">Dhuhr</span>
           </div>
           <div class="prayer-time-group">
             <span class="prayer-time">11:45 AM</span>
@@ -143,7 +143,7 @@
 
         <div class="prayer-card" data-prayer="asr">
           <div class="prayer-info">
-            <span class="prayer-name">Asr</span>
+            <span class="prayer-name" data-i18n="asr">Asr</span>
           </div>
           <div class="prayer-time-group">
             <span class="prayer-time">3:10 PM</span>
@@ -158,7 +158,7 @@
 
         <div class="prayer-card" data-prayer="maghrib">
           <div class="prayer-info">
-            <span class="prayer-name">Maghrib</span>
+            <span class="prayer-name" data-i18n="maghrib">Maghrib</span>
           </div>
           <div class="prayer-time-group">
             <span class="prayer-time">6:07 PM</span>
@@ -173,7 +173,7 @@
 
         <div class="prayer-card active" data-prayer="isha">
           <div class="prayer-info">
-            <span class="prayer-name">Isha</span>
+            <span class="prayer-name" data-i18n="isha">Isha</span>
           </div>
           <div class="prayer-time-group">
             <span class="prayer-time">7:17 PM</span>
