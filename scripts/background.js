@@ -34,3 +34,5 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 
 updateBadge();
 scheduleNotifications();
+
+globalThis.debugSchedule = scheduleNotifications;
