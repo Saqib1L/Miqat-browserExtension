@@ -66,7 +66,7 @@ export function detectMethod(location) {
 }
 
 export const MADHAB_OPTIONS = [
-  { value: "Shafi", label: "Shafi'i, Maliki, Hanbali" },
+  { value: "Shafi", label: "Standard (Shafi'i, Maliki, Hanbali)" },
   { value: "Hanafi", label: "Hanafi" },
 ];
 
