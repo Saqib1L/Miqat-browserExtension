@@ -18,6 +18,16 @@ const MADHAB_I18N_KEYS = {
   Hanafi: "madhabHanafi",
 };
 
+const MADHAB_DESC_KEYS = {
+  Shafi: "madhabShafiDesc",
+  Hanafi: "madhabHanafiDesc",
+};
+
+const SHADOW_SVG = {
+  Shafi: `<svg class="option__shadow" viewBox="0 0 48 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="8" y1="6" x2="8" y2="34"/><line x1="8" y1="34" x2="36" y2="34"/></svg>`,
+  Hanafi: `<svg class="option__shadow" viewBox="0 0 48 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="8" y1="20" x2="8" y2="34"/><line x1="8" y1="34" x2="36" y2="34"/></svg>`,
+};
+
 function renderOptions(active, lang) {
   group.innerHTML = "";
   for (const { value } of MADHAB_OPTIONS) {
@@ -28,11 +38,21 @@ function renderOptions(active, lang) {
     btn.setAttribute("role", "radio");
     btn.setAttribute("aria-checked", String(value === active));
 
+    const textWrap = document.createElement("span");
+    textWrap.className = "madhab-option__text";
+
     const labelEl = document.createElement("span");
-    labelEl.className = "option__native";
+    labelEl.className = "madhab-option__title";
     labelEl.textContent = t(MADHAB_I18N_KEYS[value], lang);
 
-    btn.appendChild(labelEl);
+    const descEl = document.createElement("span");
+    descEl.className = "madhab-option__desc";
+    descEl.textContent = t(MADHAB_DESC_KEYS[value], lang);
+
+    textWrap.appendChild(labelEl);
+    textWrap.appendChild(descEl);
+    btn.appendChild(textWrap);
+    btn.insertAdjacentHTML("beforeend", SHADOW_SVG[value]);
     btn.insertAdjacentHTML("beforeend", CHECK_SVG);
     group.appendChild(btn);
   }

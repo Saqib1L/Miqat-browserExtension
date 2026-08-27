@@ -220,14 +220,16 @@ body {
 
 .option__native {
   flex: 1;
+  min-width: 0;
 }
 
 .option__description {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  margin-top: 2px;
   display: block;
+  margin-top: 3px;
+  font-size: 0.68rem;
+  line-height: 1.45;
   font-weight: 400;
+  color: var(--text-muted);
 }
 
 /* ============================================================
@@ -412,5 +414,38 @@ body[data-theme="light"] .toggle input:checked + .toggle__track::after {
 .stepper-row__preview {
   font-size: 0.72rem;
   font-weight: 400;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   MADHAB INFO
+   ============================================================ */
+
+
+.madhab-option__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.madhab-option__title {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.madhab-option__desc {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.68rem;
+  line-height: 1.45;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.option__shadow {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
   color: var(--text-muted);
 }
