@@ -2,6 +2,7 @@ import { initTheme } from "../../../scripts/theme.js";
 import {
   NOTIFIABLE_PRAYERS,
   LEAD_TIMES,
+  ADHAN_SOUNDS,
   getNotificationSettings,
   updateNotificationSettings,
 } from "../../../scripts/notification-settings.js";
@@ -13,11 +14,24 @@ const detailSection = document.getElementById("detailSection");
 const prayerToggles = document.getElementById("prayerToggles");
 const leadTimeGroup = document.getElementById("leadTimeGroup");
 
+const soundToggle = document.getElementById("soundToggle");
+const soundSection = document.getElementById("soundSection");
+const soundGroup = document.getElementById("soundGroup");
+const volumeSlider = document.getElementById("volumeSlider");
+const volumePercent = document.getElementById("volumePercent");
+const muteBtn = document.getElementById("muteBtn");
+const muteIcon = document.getElementById("muteIcon");
+
 document.getElementById("backBtn").addEventListener("click", () => {
   window.location.href = "../settings.html";
 });
 
 const CHECK_SVG = `<svg class="option__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+
+const SPEAKER_ON = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>`;
+const SPEAKER_OFF = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>`;
+
+let lastVolume = 0.8;
 
 function leadTimeLabel(minutes) {
   return minutes === 0 ? "At prayer time" : `${minutes} minutes before`;
@@ -58,10 +72,64 @@ function renderLeadTimes(active) {
   }
 }
 
+function renderSounds(activeFile) {
+  soundGroup.innerHTML = "";
+  for (const { file, label } of ADHAN_SOUNDS) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "option";
+    btn.dataset.file = file;
+    btn.setAttribute("role", "radio");
+    btn.setAttribute("aria-checked", String(file === activeFile));
+
+    const inner = document.createElement("span");
+    inner.className = "option__native";
+    inner.textContent = label;
+
+    btn.appendChild(inner);
+    btn.insertAdjacentHTML("beforeend", CHECK_SVG);
+    soundGroup.appendChild(btn);
+  }
+}
+
+function renderVolume(volume) {
+  const pct = Math.round(volume * 100);
+  volumeSlider.value = String(pct);
+  volumePercent.textContent = `${pct}%`;
+
+  const muted = pct === 0;
+  muteIcon.innerHTML = muted ? SPEAKER_OFF : SPEAKER_ON;
+  muteBtn.setAttribute("aria-pressed", String(muted));
+  muteBtn.setAttribute("aria-label", muted ? "Unmute" : "Mute");
+}
+
 function applyEnabledState(enabled) {
   detailSection.style.opacity = enabled ? "1" : "0.4";
   detailSection.style.pointerEvents = enabled ? "" : "none";
   detailSection.setAttribute("aria-disabled", String(!enabled));
+}
+
+function applySoundState(on) {
+  soundSection.style.opacity = on ? "1" : "0.4";
+  soundSection.style.pointerEvents = on ? "" : "none";
+  soundSection.setAttribute("aria-disabled", String(!on));
+}
+
+let previewEl = null;
+let previewTimer = null;
+
+async function previewSound(file) {
+  const { soundFile, volume } = await getNotificationSettings();
+  const target = file ?? soundFile;
+  if (!volume) return;
+
+  if (previewEl) previewEl.pause();
+  clearTimeout(previewTimer);
+
+  previewEl = new Audio(chrome.runtime.getURL(`media/audio/${target}`));
+  previewEl.volume = volume;
+  previewEl.play().catch(() => {});
+  previewTimer = setTimeout(() => previewEl?.pause(), 8000);
 }
 
 async function requestPermission() {
@@ -104,10 +172,54 @@ leadTimeGroup.addEventListener("click", async (e) => {
   renderLeadTimes(minutes);
 });
 
+soundToggle.addEventListener("change", async () => {
+  applySoundState(soundToggle.checked);
+  await updateNotificationSettings({ sound: soundToggle.checked });
+  if (!soundToggle.checked && previewEl) previewEl.pause();
+});
+
+soundGroup.addEventListener("click", async (e) => {
+  const btn = e.target.closest(".option");
+  if (!btn) return;
+  const file = btn.dataset.file;
+  await updateNotificationSettings({ soundFile: file });
+  renderSounds(file);
+  previewSound(file);
+});
+
+volumeSlider.addEventListener("input", () => {
+  renderVolume(Number(volumeSlider.value) / 100);
+});
+
+volumeSlider.addEventListener("change", async () => {
+  const volume = Number(volumeSlider.value) / 100;
+  if (volume > 0) lastVolume = volume;
+  await updateNotificationSettings({ volume });
+  if (volume > 0) previewSound();
+});
+
+muteBtn.addEventListener("click", async () => {
+  const current = Number(volumeSlider.value) / 100;
+  const next = current === 0 ? (lastVolume || 0.8) : 0;
+  if (current > 0) lastVolume = current;
+  renderVolume(next);
+  await updateNotificationSettings({ volume: next });
+});
+
+window.addEventListener("pagehide", () => {
+  if (previewEl) previewEl.pause();
+});
+
 (async function init() {
   const settings = await getNotificationSettings();
   masterToggle.checked = settings.enabled;
   applyEnabledState(settings.enabled);
   renderPrayerToggles(settings.prayers);
   renderLeadTimes(settings.leadTime);
+
+  soundToggle.checked = settings.sound;
+  applySoundState(settings.sound);
+  renderSounds(settings.soundFile);
+  renderVolume(settings.volume);
+  lastVolume = settings.volume || 0.8;
 })();

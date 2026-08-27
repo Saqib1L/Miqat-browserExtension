@@ -1,12 +1,13 @@
 import '../lib/adhan.umd.min.js';
 import { updateBadge } from './badge.js';
+import { stopAdhan, closeAdhanPlayer } from './adhan-audio.js';
 import {
   scheduleNotifications,
   isNotificationAlarm,
   handleNotificationAlarm,
+  handleNotificationClosed,
 } from './notifications.js';
 
-// notification handlers, alarm listeners, and events
 chrome.runtime.onInstalled.addListener(() => {
   console.log('Prayer Times extension initialized.');
   updateBadge();
@@ -21,9 +22,22 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   }
 });
 
+chrome.notifications.onButtonClicked.addListener((id) => {
+  if (isNotificationAlarm(id)) {
+    stopAdhan();
+    chrome.notifications.clear(id);
+  }
+});
+
+chrome.notifications.onClosed.addListener(handleNotificationClosed);
+chrome.notifications.onClicked.addListener(handleNotificationClosed);
+
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg?.type === 'adhanFinished') closeAdhanPlayer();
+});
+
 chrome.storage.onChanged.addListener((changes, areaName) => {
   if (areaName !== 'local') return;
-
   if (changes.location) {
     updateBadge();
     scheduleNotifications();
@@ -34,5 +48,3 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 
 updateBadge();
 scheduleNotifications();
-
-globalThis.debugSchedule = scheduleNotifications;

@@ -2,6 +2,7 @@ import { getStorage } from './storage.js';
 import { getSettings } from './settings-store.js';
 import { calculatePrayerTimes } from './prayer-times.js';
 import { NOTIFIABLE_PRAYERS, getNotificationSettings } from './notification-settings.js';
+import { playAdhan, stopAdhan } from './adhan-audio.js';
 
 const PREFIX = 'notif:';
 
@@ -69,14 +70,23 @@ export async function handleNotificationAlarm(name) {
     ? `It is time for ${label}.`
     : `${label} is in ${lead} minutes.`;
 
+  const withSound = notif.sound && lead === 0 && notif.volume > 0;
+
   chrome.notifications.create(`${PREFIX}${key}:${Date.now()}`, {
     type: 'basic',
     iconUrl: chrome.runtime.getURL('media/moon.png'),
     title: 'Miqat',
     message,
     priority: 2,
+    requireInteraction: withSound,
+    buttons: withSound ? [{ title: 'Stop adhan' }] : [],
   });
 
-  // Re-arm this prayer for tomorrow.
+  if (withSound) playAdhan(notif.soundFile, notif.volume);
+
   scheduleNotifications();
+}
+
+export function handleNotificationClosed(notificationId) {
+  if (isNotificationAlarm(notificationId)) stopAdhan();
 }

@@ -31,12 +31,47 @@
 
     <div id="detailSection">
       <div class="settings-divider"></div>
-      <div class="settings-section-label">Notify Me For</div>
+      <div class="settings-section-label">Prayers</div>
       <div class="toggle-list" id="prayerToggles"></div>
 
       <div class="settings-divider"></div>
-      <div class="settings-section-label">Reminder Time</div>
+      <div class="settings-section-label">Reminder</div>
       <div class="option-list" id="leadTimeGroup" role="radiogroup"></div>
+
+      <div class="settings-divider"></div>
+      <div class="settings-section-label">Adhan Sound</div>
+      <div class="toggle-list">
+        <div class="toggle-row">
+          <span class="toggle-row__label">Play Adhan</span>
+          <label class="toggle">
+            <input type="checkbox" id="soundToggle">
+            <span class="toggle__track"></span>
+          </label>
+        </div>
+      </div>
+
+      <div id="soundSection">
+        <div class="option-list" id="soundGroup" role="radiogroup"></div>
+
+        <div class="settings-section-label">Sound Level</div>
+        <div class="volume-card">
+          <div class="volume-card__readout">
+            <span class="volume-card__percent" id="volumePercent">80%</span>
+          </div>
+          <div class="volume-card__controls">
+            <button type="button" class="volume-mute" id="muteBtn" aria-label="Mute" aria-pressed="false">
+              <svg class="icon" id="muteIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+            </button>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" step="1" value="80" aria-label="Notification sound level">
+          </div>
+          <p class="page-hint">The selected sound level depends on your system volume.</p>
+        </div>
+
+        <p class="page-hint">The adhan only plays when the reminder is set to "At prayer time".</p>
+      </div>
     </div>
   </div>
   <script type="module" src="notifications.js"></script>
