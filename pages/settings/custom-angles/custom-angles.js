@@ -51,6 +51,7 @@ function render() {
 function renderPreview() {
   const fajrEl = document.getElementById("fajrPreview");
   const ishaEl = document.getElementById("ishaPreview");
+  if (!fajrEl || !ishaEl) return;
 
   if (!location) {
     fajrEl.textContent = t("setLocationToPreview", lang);
