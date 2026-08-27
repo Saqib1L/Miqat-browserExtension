@@ -32,11 +32,14 @@ export async function updateBadge() {
 }
 
 function formatBadge(totalSeconds) {
+  if (totalSeconds < 60) {
+    return `${totalSeconds}s`;
+  }
+
   const totalMinutes = Math.floor(totalSeconds / 60);
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
   const pad = n => String(n).padStart(2, '0');
-
   return `${pad(hours)}:${pad(minutes)}`;
 }
 
