@@ -48,7 +48,7 @@ els.settingsBtn.addEventListener("click", () => {
 });
 
 els.userLocation.addEventListener("click", () => {
-  window.location.href = "../location/location.html";
+  window.location.href = "../location/location.html?from=popup";
 });
 
 els.nextDateBtn.addEventListener("click", () => {
@@ -116,11 +116,20 @@ async function renderPrayerTimes() {
   els.todayBtn.classList.toggle("direction-right", dayOffset < 0);
 
   if (!location) {
-    els.currentPrayerName.textContent = "No location set";
-    els.nextPrayerCountdown.textContent = "";
-    els.locationText.textContent = "Tap to set location";
+    els.currentPrayerName.textContent = 'No location set';
+    els.nextPrayerCountdown.textContent = '';
+    els.locationText.textContent = 'Tap to set location';
 
     highlightActivePrayer(null);
+
+    PRAYER_KEYS.forEach(key => {
+      document.querySelector(`.prayer-card[data-prayer="${key}"] .prayer-time`).textContent = '--:--';
+    });
+
+    document.querySelector('.hero-section').style.visibility = 'visible';
+    document.querySelector('.date-strip').style.visibility = 'visible';
+    document.querySelector('.prayer-list').style.visibility = 'visible';
+
     return;
   }
 

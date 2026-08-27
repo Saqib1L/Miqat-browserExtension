@@ -108,3 +108,11 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--scrollbar-thumb-hover);
 }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+button {
+  user-select: none;
+}

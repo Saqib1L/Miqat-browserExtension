@@ -33,6 +33,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  direction: ltr;
 }
 
 .location-wrapper {
@@ -276,6 +277,11 @@ body[data-theme="light"] .today-pill.away-from-today {
   transition: color 0.2s ease, background 0.2s ease;
 }
 
+.date-nav-btn .icon {
+  width: 20px;
+  height: 20px;
+}
+
 .date-nav-btn:hover {
   color: var(--text-primary);
   background: var(--pill-hover);
@@ -358,24 +364,5 @@ body[data-theme="light"] .today-pill.away-from-today {
 .prayer-time {
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text-primary);
-}
-
-.audio-toggle-btn {
-  background: none;
-  border: none;
-  color: var(--text-secondary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s ease;
-}
-
-.audio-toggle-btn.muted {
-  color: var(--text-muted);
-}
-
-.audio-toggle-btn:hover {
   color: var(--text-primary);
 }

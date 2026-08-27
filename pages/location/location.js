@@ -43,7 +43,10 @@ async function loadSavedLocation() {
 }
 
 backBtn.addEventListener('click', () => {
-  window.location.href = '../popup/popup.html';
+  const params = new URLSearchParams(window.location.search);
+  window.location.href = params.get('from') === 'settings'
+    ? '../settings/settings.html'
+    : '../popup/popup.html';
 });
 
 showManualBtn.addEventListener('click', () => showView('manual'));

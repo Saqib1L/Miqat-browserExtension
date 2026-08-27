@@ -55,14 +55,6 @@ async function init() {
 
   document.getElementById("currentHijri").textContent =
     formatHijriOffset(settings.hijriAdjustment ?? 0);
-
-  const notif = settings.notifications ?? {};
-  const enabledCount = Object.values(notif).filter(Boolean).length;
-  const totalCount = Object.keys(notif).length;
-  document.getElementById("currentNotifications").textContent =
-    enabledCount === 0 ? "All off" :
-    enabledCount === totalCount ? "All on" :
-    `${enabledCount} of ${totalCount} on`;
 }
 
 init();
