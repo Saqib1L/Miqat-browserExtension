@@ -119,6 +119,7 @@ export const TRANSLATIONS = {
     madhabTitle: "المذهب",
     madhabHint: "يحدد الطريقة المستخدمة لحساب وقت صلاة العصر.",
     madhabShafi: "المعياري (الشافعي، المالكي، الحنبلي)",
+    madhabHanafi: "حنفي",
     madhabExplainerIntro: "تختلف المذاهب الإسلامية في تحديد بداية وقت العصر بناءً على طول الظل:",
     madhabShafiDesc: "يبدأ العصر عندما يساوي ظل الشيء طوله",
     madhabHanafiDesc: "يبدأ العصر عندما يصبح ظل الشيء ضعف طوله (عادةً بعد 30–60 دقيقة)",
@@ -1001,7 +1002,7 @@ ha: {
     madhabHint: "Yana ƙayyade hanyar da ake amfani da ita wajen lissafin lokacin sallar La'asar.",
     madhabShafi: "Daidaitacce (Shafi'i, Maliki, Hanbali)",
     madhabHanafi: "Hanafi",
-    madhabExplainerIntro: "Mazhahabobin Musulunci daban-daban suna ƙayyade farkon lokacin La'asar ta hanyoyi daban-daban bisa tsawon inuwa:",
+    madhabExplainerIntro: "Mazhabobin Musulunci daban-daban suna ƙayyade farkon lokacin La'asar ta hanyoyi daban-daban bisa tsawon inuwa:",
     madhabShafiDesc: "La'asar tana farawa lokacin da inuwar abu ta kai tsawon abu ɗin",
     madhabHanafiDesc: "La'asar tana farawa lokacin da inuwar abu ta kai ninki biyu na tsawonsa (yawanci mintuna 30–60 daga baya)",
     hijriTitle: "Daidaita Kwanan Hijira",
@@ -1484,7 +1485,7 @@ so: {
     dhuhr: "Duhur",
     asr: "Casar",
     maghrib: "Maqrib",
-    isha: "Cishaha",
+    isha: "Cisha",
     prayerAdjustmentsTitle: "Hagaajinta Waqtiyada Salaadda",
     prayerAdjustmentsHint: "Waqtiga salaad kasta ku hagaaji daqiiqado (±60). Waqtiyada maanta hoos ayay ku cusboonaanayaan markaad wax hagaajiso.",
     madhabTitle: "Madhhab",
@@ -2352,7 +2353,7 @@ wo: {
 },
 };
 
-export const RTL_LANGS = ["ar", "ur", "fa", "sd", "ps", "ku"];
+export const RTL_LANGS = ["ar", "ur", "fa", "sd", "ps"];
 export const DEFAULT_LANG = "en";
 
 const hasStorage =
