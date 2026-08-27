@@ -51,7 +51,26 @@
       </div>
 
       <div id="soundSection">
-        <div class="option-list" id="soundGroup" role="radiogroup"></div>
+        <div class="sound-card">
+          <div class="sound-card__selector">
+            <span class="sound-card__label">Sound</span>
+            <div class="sound-dropdown" id="soundDropdown">
+              <button type="button" class="sound-dropdown__button" id="soundDropdownButton" aria-haspopup="listbox" aria-expanded="false">
+                <span id="soundDropdownValue"></span>
+                <svg class="sound-dropdown__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="sound-dropdown__menu" id="soundDropdownMenu" role="listbox"></div>
+            </div>
+          </div>
+          <button type="button" class="sound-card__play" id="soundPlayBtn" aria-label="Play selected adhan">
+            <svg class="icon" id="soundPlayIcon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <polygon points="8 5 19 12 8 19"></polygon>
+            </svg>
+            <span id="soundPlayLabel">Play</span>
+          </button>
+        </div>
 
         <div class="settings-section-label">Sound Level</div>
         <div class="volume-card">

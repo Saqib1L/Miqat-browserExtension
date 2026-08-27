@@ -233,7 +233,7 @@ body {
 }
 
 /* ============================================================
-   TOGGLE ROWS (notifications)
+   TOGGLE ROWS
    ============================================================ */
 
 .toggle-list {
@@ -421,7 +421,6 @@ body[data-theme="light"] .toggle input:checked + .toggle__track::after {
    MADHAB INFO
    ============================================================ */
 
-
 .madhab-option__text {
   flex: 1;
   min-width: 0;
@@ -450,52 +449,239 @@ body[data-theme="light"] .toggle input:checked + .toggle__track::after {
   color: var(--text-muted);
 }
 
-/* --- Volume control --- */
-.volume-card {
-  border: 1px solid rgba(128, 128, 128, 0.25);
-  border-radius: 12px;
-  padding: 16px 14px;
+/* ============================================================
+   SOUND SELECTOR
+   ============================================================ */
+
+.sound-card {
   margin: 0 12px 8px;
+  padding: 12px;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  background: var(--card-bg);
 }
 
-.volume-card__readout { text-align: center; margin-bottom: 12px; }
+.sound-card__selector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sound-card__label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.sound-dropdown {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.sound-dropdown__button {
+  width: 100%;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  background: var(--pill-bg);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-align: start;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.sound-dropdown__button:hover {
+  background: var(--pill-hover);
+}
+
+.sound-dropdown__chevron {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: transform 0.15s ease;
+}
+
+.sound-dropdown.is-open .sound-dropdown__chevron {
+  transform: rotate(180deg);
+}
+
+.sound-dropdown__menu {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 5px);
+  inset-inline: 0;
+  display: none;
+  padding: 4px;
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  background: #101a2f;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+body[data-theme="light"] .sound-dropdown__menu {
+  background: #ffffff;
+}
+
+.sound-dropdown.is-open .sound-dropdown__menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sound-dropdown__option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 34px;
+  padding: 7px 9px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: none;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-align: start;
+  cursor: pointer;
+}
+
+.sound-dropdown__option:hover {
+  background: var(--pill-hover);
+  color: var(--text-primary);
+}
+
+.sound-dropdown__option[aria-selected="true"] {
+  background: var(--pill-bg);
+  color: var(--text-primary);
+  border-color: var(--active-outline);
+}
+
+.sound-dropdown__option-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.sound-dropdown__check {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  margin-inline-start: 8px;
+  color: var(--active-outline);
+  opacity: 0;
+}
+
+.sound-dropdown__option[aria-selected="true"] .sound-dropdown__check {
+  opacity: 1;
+}
+
+.sound-card__play {
+  width: 100%;
+  height: 36px;
+  margin-top: 10px;
+  border: 1px solid var(--card-border);
+  border-radius: 9px;
+  background: var(--pill-bg);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.sound-card__play:hover {
+  background: var(--pill-hover);
+}
+
+.sound-card__play:active {
+  transform: scale(0.98);
+}
+
+.sound-card__play .icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* ============================================================
+   VOLUME CONTROL
+   ============================================================ */
+
+.volume-card {
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 14px;
+  margin: 0 12px 8px;
+  background: var(--card-bg);
+}
+
+.volume-card__readout {
+  text-align: center;
+  margin-bottom: 14px;
+}
 
 .volume-card__percent {
   font-size: 1.05rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
 }
 
 .volume-card__controls {
-  display: table;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   width: 100%;
-  border-spacing: 12px 0;
 }
-
-.volume-mute,
-.volume-slider { display: table-cell; vertical-align: middle; }
 
 .volume-mute {
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  border: 1.5px solid currentColor;
-  background: none;
-  color: inherit;
-  opacity: 0.7;
+  border: 1px solid var(--card-border);
+  background: var(--pill-bg);
+  color: var(--text-secondary);
+  opacity: 1;
   cursor: pointer;
   padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
-.volume-mute[aria-pressed="true"] { color: #e08c3c; opacity: 1; }
+.volume-mute:hover {
+  background: var(--pill-hover);
+  color: var(--text-primary);
+}
+
+.volume-mute[aria-pressed="true"] {
+  color: #e08c3c;
+  border-color: #e08c3c;
+}
 
 .volume-slider {
-  width: 100%;
+  flex: 1;
+  min-width: 0;
+  width: auto;
   -webkit-appearance: none;
   appearance: none;
   height: 6px;
   border-radius: 3px;
-  background: rgba(128, 128, 128, 0.35);
+  background: var(--pill-bg);
+  border: 1px solid var(--card-border);
   outline: none;
   cursor: pointer;
 }
@@ -506,9 +692,171 @@ body[data-theme="light"] .toggle input:checked + .toggle__track::after {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #172544;
-  border: 2px solid #8fa4d8;
+  background: var(--active-outline);
+  border: 2px solid var(--card-bg);
+  box-shadow: 0 0 0 1px var(--active-outline);
   cursor: pointer;
 }
 
-.volume-card .page-hint { text-align: center; margin-top: 14px; margin-bottom: 0; }
+.volume-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--active-outline);
+  border: 2px solid var(--card-bg);
+  box-shadow: 0 0 0 1px var(--active-outline);
+  cursor: pointer;
+}
+
+/* ============================================================
+   NOTIFICATIONS
+   ============================================================ */
+
+#detailSection {
+  padding-bottom: 12px;
+}
+
+#detailSection > .settings-divider {
+  margin: 8px 16px 0;
+}
+
+#detailSection > .settings-section-label {
+  padding: 10px 16px 3px;
+}
+
+#detailSection .info-box {
+  margin: 12px 16px 4px;
+  padding: 10px 12px;
+  border-radius: 9px;
+}
+
+#detailSection .toggle-list {
+  padding: 6px 16px;
+  gap: 4px;
+}
+
+#detailSection .toggle-row {
+  min-height: 46px;
+  padding: 10px 12px;
+  border-radius: 9px;
+}
+
+#prayerToggles {
+  padding-top: 4px;
+  padding-bottom: 6px;
+}
+
+#leadTimeGroup {
+  padding: 4px 16px 8px;
+  gap: 3px;
+}
+
+#leadTimeGroup .option {
+  min-height: 40px;
+  padding: 9px 11px;
+  border-radius: 8px;
+}
+
+#soundSection {
+  padding-bottom: 2px;
+}
+
+#soundSection > .sound-card {
+  margin: 4px 16px 0;
+  padding: 11px;
+  border-radius: 9px;
+}
+
+#soundSection > .settings-section-label {
+  padding-top: 12px;
+}
+
+#soundSection > .page-hint {
+  margin: 8px 16px 0;
+  padding: 0;
+}
+
+#soundSection .sound-card__selector {
+  gap: 10px;
+}
+
+#soundSection .sound-card__label {
+  min-width: 42px;
+  font-size: 0.78rem;
+}
+
+#soundSection .sound-dropdown__button {
+  height: 34px;
+  padding: 0 9px;
+  font-size: 0.78rem;
+}
+
+#soundSection .sound-dropdown__menu {
+  top: calc(100% + 4px);
+  padding: 3px;
+  border-radius: 9px;
+}
+
+#soundSection .sound-dropdown__option {
+  min-height: 32px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+}
+
+#soundSection .sound-card__play {
+  height: 34px;
+  margin-top: 8px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+}
+
+#soundSection .sound-card__play .icon {
+  width: 13px;
+  height: 13px;
+}
+
+#soundSection .volume-card {
+  margin: 4px 16px 0;
+  padding: 11px 12px;
+  border-radius: 9px;
+}
+
+#soundSection .volume-card__readout {
+  margin-bottom: 9px;
+}
+
+#soundSection .volume-card__percent {
+  font-size: 0.9rem;
+}
+
+#soundSection .volume-card__controls {
+  gap: 10px;
+}
+
+#soundSection .volume-mute {
+  width: 30px;
+  height: 30px;
+}
+
+#soundSection .volume-slider {
+  height: 5px;
+}
+
+#soundSection .volume-slider::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+}
+
+#soundSection .volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+}
+
+#soundSection .volume-card .page-hint {
+  margin-top: 9px;
+  margin-bottom: 0;
+  padding: 0;
+  text-align: center;
+  line-height: 1.4;
+}
