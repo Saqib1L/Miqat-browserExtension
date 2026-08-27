@@ -2,6 +2,7 @@ import { initTheme } from "../../../scripts/theme.js";
 import { getSettings, updateSettings } from "../../../scripts/settings-store.js";
 import { getStorage } from "../../../scripts/storage.js";
 import { ANGLE_LIMITS } from "../../../scripts/settings-schema.js";
+import { getLanguage, t, tf, applyTranslations } from "../../../scripts/translation.js";
 import {
   calculatePrayerTimes,
   resolveAngles,
@@ -21,6 +22,7 @@ const hint = document.getElementById("angleHint");
 
 let settings = null;
 let location = null;
+let lang = "en";
 
 function render() {
   const custom = settings.customAngles ?? {};
@@ -38,9 +40,9 @@ function render() {
     : `${effective.ishaAngle}\u00b0`;
 
   if (auto) {
-    hint.textContent = `Angles taken from ${resolveMethod(settings, location).label}.`;
+    hint.textContent = tf("customAnglesFrom", lang, { method: resolveMethod(settings, location).label });
   } else {
-    hint.textContent = `Allowed range ${ANGLE_LIMITS.min}\u00b0 \u2013 ${ANGLE_LIMITS.max}\u00b0, in ${ANGLE_LIMITS.step}\u00b0 steps.`;
+    hint.textContent = tf("customAnglesRange", lang, { min: ANGLE_LIMITS.min, max: ANGLE_LIMITS.max, step: ANGLE_LIMITS.step });
   }
 
   renderPreview();
@@ -51,14 +53,14 @@ function renderPreview() {
   const ishaEl = document.getElementById("ishaPreview");
 
   if (!location) {
-    fajrEl.textContent = "Set a location to preview";
+    fajrEl.textContent = t("setLocationToPreview", lang);
     ishaEl.textContent = "";
     return;
   }
 
   const times = calculatePrayerTimes(location, new Date(), settings);
-  fajrEl.textContent = `Today: ${formatTime(times.fajr)}`;
-  ishaEl.textContent = `Today: ${formatTime(times.isha)}`;
+  fajrEl.textContent = tf("todayTime", lang, { time: formatTime(times.fajr) });
+  ishaEl.textContent = tf("todayTime", lang, { time: formatTime(times.isha) });
 }
 
 autoToggle.addEventListener("change", async () => {
@@ -89,8 +91,14 @@ angleList.addEventListener("click", async (e) => {
 });
 
 (async function init() {
-  const [loadedSettings, stored] = await Promise.all([getSettings(), getStorage("location")]);
+  const [loadedSettings, stored, loadedLang] = await Promise.all([
+    getSettings(),
+    getStorage("location"),
+    getLanguage(),
+  ]);
   settings = loadedSettings;
   location = stored.location ?? null;
+  lang = loadedLang;
+  applyTranslations(lang);
   render();
 })();

@@ -1,6 +1,7 @@
 import { initTheme } from "../../../scripts/theme.js";
 import { getSettings, updateSettings } from "../../../scripts/settings-store.js";
 import { formatHijriDate, HIJRI_LIMITS } from "../../../scripts/hijri.js";
+import { getLanguage, t, applyTranslations } from "../../../scripts/translation.js";
 
 initTheme();
 
@@ -14,9 +15,11 @@ document.getElementById("backBtn").addEventListener("click", () => {
 });
 
 let current = 0;
+let lang = "en";
 
-const gregorian = (date) =>
-  date.toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long" });
+function gregorian(date) {
+  return date.toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long" });
+}
 
 function render(val) {
   current = val;
@@ -31,7 +34,7 @@ function render(val) {
   document.getElementById("todayGregorian").textContent = gregorian(today);
   document.getElementById("todayHijri").textContent = formatHijriDate(today, val);
   document.getElementById("todayHijriBase").textContent =
-    val === 0 ? "No offset applied" : `Unadjusted: ${formatHijriDate(today, 0)}`;
+    val === 0 ? t("hijriNoOffset", lang) : `${t("hijriUnadjusted", lang)}: ${formatHijriDate(today, 0)}`;
 
   document.getElementById("tomorrowGregorian").textContent = gregorian(tomorrow);
   document.getElementById("tomorrowHijri").textContent = formatHijriDate(tomorrow, val);
@@ -48,6 +51,8 @@ decBtn.addEventListener("click", () => adjust(-1));
 incBtn.addEventListener("click", () => adjust(1));
 
 (async function init() {
-  const { hijriAdjustment } = await getSettings();
+  const [{ hijriAdjustment }, loadedLang] = await Promise.all([getSettings(), getLanguage()]);
+  lang = loadedLang;
+  applyTranslations(lang);
   render(hijriAdjustment ?? 0);
 })();

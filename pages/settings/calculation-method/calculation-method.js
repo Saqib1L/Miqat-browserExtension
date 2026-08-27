@@ -6,6 +6,7 @@ import {
 } from "../../../scripts/settings-schema.js";
 import { getSettings, updateSettings } from "../../../scripts/settings-store.js";
 import { getStorage } from "../../../scripts/storage.js";
+import { getLanguage, t, tf, applyTranslations } from "../../../scripts/translation.js";
 
 initTheme();
 
@@ -18,12 +19,14 @@ document.getElementById("backBtn").addEventListener("click", () => {
 const CHECK_SVG = `<svg class="option__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
 
 let detected = null;
+let lang = "en";
 
 function describe(method) {
   if (method.value === "Auto") {
     const label = findMethod(detected)?.label ?? "Muslim World League";
-    return `Detected for your location: ${label}`;
+    return tf("autoDetectedFor", lang, { method: label });
   }
+  if (method.value === "Custom") return t("customAnglesMethodDesc", lang);
   if (method.description) return method.description;
   if (method.ishaInterval) return `Fajr ${method.fajrAngle}\u00b0 \u00b7 Isha ${method.ishaInterval} min after Maghrib`;
   return `Fajr ${method.fajrAngle}\u00b0 \u00b7 Isha ${method.ishaAngle}\u00b0`;
@@ -41,7 +44,7 @@ function renderOptions(active) {
 
     const inner = document.createElement("span");
     inner.className = "option__native";
-    inner.textContent = method.label;
+    inner.textContent = method.value === "Auto" ? t("autoDetect", lang) : method.label;
     const desc = document.createElement("span");
     desc.className = "option__description";
     desc.textContent = describe(method);
@@ -61,11 +64,14 @@ group.addEventListener("click", async (e) => {
 });
 
 (async function init() {
-  const [{ calculationMethod }, { location }] = await Promise.all([
+  const [{ calculationMethod }, { location }, loadedLang] = await Promise.all([
     getSettings(),
     getStorage("location"),
+    getLanguage(),
   ]);
+  lang = loadedLang;
   detected = detectMethod(location);
+  applyTranslations(lang);
   const stored = findMethod(calculationMethod);
   renderOptions(calculationMethod === "Auto" ? "Auto" : (stored?.value ?? "MuslimWorldLeague"));
 })();

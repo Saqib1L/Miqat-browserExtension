@@ -1,5 +1,5 @@
 import { initTheme } from "../../scripts/theme.js";
-import { getLanguage, TRANSLATIONS } from "../../scripts/translation.js";
+import { getLanguage, TRANSLATIONS, t, tf, applyTranslations } from "../../scripts/translation.js";
 import { getSettings } from "../../scripts/settings-store.js";
 import { getStorage } from "../../scripts/storage.js";
 import { formatHijriOffset } from "../../scripts/hijri.js";
@@ -23,24 +23,31 @@ async function init() {
     getStorage("location"),
   ]);
 
+  applyTranslations(lang);
+
   document.getElementById("currentLang").textContent =
     TRANSLATIONS[lang]?.langName ?? lang;
+
+  if (location) {
+    document.getElementById("currentLocation").textContent =
+      location.label || `${location.latitude}, ${location.longitude}`;
+  }
 
   const isAuto = settings.calculationMethod === "Auto";
   const effective = findMethod(isAuto ? detectMethod(location) : settings.calculationMethod);
   document.getElementById("currentMethod").textContent = isAuto
-    ? `Auto \u2014 ${effective?.label ?? "Muslim World League"}`
+    ? tf("settingsAutoMethod", lang, { method: effective?.label ?? "Muslim World League" })
     : (effective?.label ?? settings.calculationMethod);
 
   const angles = settings.customAngles ?? {};
   document.getElementById("currentAngles").textContent =
     angles.auto === false
       ? `Fajr ${angles.fajrAngle}\u00b0 \u00b7 Isha ${angles.ishaAngle}\u00b0`
-      : "Auto set";
+      : t("settingsAnglesAutoSet", lang);
 
-  const madhabLabels = { Shafi: "Shafi'i / Maliki / Hanbali", Hanafi: "Hanafi" };
+  const madhabMap = { Shafi: t("settingsMadhabShafi", lang), Hanafi: t("settingsMadhabHanafi", lang) };
   document.getElementById("currentMadhab").textContent =
-    madhabLabels[settings.madhab] ?? settings.madhab;
+    madhabMap[settings.madhab] ?? settings.madhab;
 
   const hlRule = HIGH_LATITUDE_RULES.find(r => r.value === settings.highLatitudeRule);
   document.getElementById("currentHighLatitude").textContent =
@@ -50,7 +57,7 @@ async function init() {
   const nonZero = PRAYERS_WITH_ADJUSTMENTS.filter(p => (adj[p.key] ?? 0) !== 0);
   document.getElementById("currentAdjustments").textContent =
     nonZero.length === 0
-      ? "None"
+      ? t("settingsAdjustmentsNone", lang)
       : nonZero.map(p => `${p.label} ${adj[p.key] > 0 ? "+" : ""}${adj[p.key]}m`).join(", ");
 
   document.getElementById("currentHijri").textContent =

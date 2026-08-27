@@ -2,6 +2,7 @@ import { initTheme } from "../../../scripts/theme.js";
 import { PRAYERS_WITH_ADJUSTMENTS } from "../../../scripts/settings-schema.js";
 import { getSettings, updateSettings } from "../../../scripts/settings-store.js";
 import { getStorage } from "../../../scripts/storage.js";
+import { getLanguage, t, tf, applyTranslations } from "../../../scripts/translation.js";
 import {
   calculatePrayerTimes,
   calculateBasePrayerTimes,
@@ -19,20 +20,22 @@ document.getElementById("backBtn").addEventListener("click", () => {
 
 let settings = null;
 let location = null;
+let lang = "en";
 
 function previewFor(key, value) {
-  if (!location) return "Set a location to preview times";
+  if (!location) return t("setLocationToPreview", lang);
   const today = new Date();
   const base = calculateBasePrayerTimes(location, today, settings);
   const adjusted = calculatePrayerTimes(location, today, settings);
-  if (value === 0) return `Today: ${formatTime(adjusted[key])}`;
-  return `Today: ${formatTime(base[key])} \u2192 ${formatTime(adjusted[key])}`;
+  if (value === 0) return tf("todayTime", lang, { time: formatTime(adjusted[key]) });
+  return tf("todayTimeAdjusted", lang, { base: formatTime(base[key]), adjusted: formatTime(adjusted[key]) });
 }
 
 function renderSteppers() {
   const adj = settings.prayerAdjustments ?? {};
   list.innerHTML = "";
-  for (const { key, label } of PRAYERS_WITH_ADJUSTMENTS) {
+  for (const { key } of PRAYERS_WITH_ADJUSTMENTS) {
+    const label = t(key, lang);
     const value = adj[key] ?? 0;
     const row = document.createElement("div");
     row.className = "stepper-row";
@@ -61,8 +64,14 @@ list.addEventListener("click", async (e) => {
 });
 
 (async function init() {
-  const [loadedSettings, stored] = await Promise.all([getSettings(), getStorage("location")]);
+  const [loadedSettings, stored, loadedLang] = await Promise.all([
+    getSettings(),
+    getStorage("location"),
+    getLanguage(),
+  ]);
   settings = loadedSettings;
   location = stored.location ?? null;
+  lang = loadedLang;
+  applyTranslations(lang);
   renderSteppers();
 })();

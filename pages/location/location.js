@@ -1,5 +1,6 @@
 import { setStorage, getStorage } from '../../scripts/storage.js';
 import { initTheme } from '../../scripts/theme.js';
+import { getLanguage, t, tf, applyTranslations } from '../../scripts/translation.js';
 
 initTheme();
 
@@ -23,6 +24,7 @@ const saveAddressBtn = document.getElementById('saveAddressBtn');
 let pendingLocation = null;
 let selectedResult = null;
 let searchDebounce = null;
+let lang = 'en';
 
 function setStatus(text, state) {
   statusText.textContent = text;
@@ -54,11 +56,11 @@ showAutomaticBtn.addEventListener('click', () => showView('automatic'));
 
 detectBtn.addEventListener('click', () => {
   if (!navigator.geolocation) {
-    setStatus('Geolocation is not supported in this browser.', 'error');
+    setStatus(t('geolocationUnsupported', lang), 'error');
     return;
   }
 
-  setStatus('Detecting your location...');
+  setStatus(t('detectingLocation', lang));
   setLocationBtn.disabled = true;
   pendingLocation = null;
 
@@ -69,16 +71,16 @@ detectBtn.addEventListener('click', () => {
       try {
         const label = await reverseGeocode(latitude, longitude);
         pendingLocation = { latitude, longitude, label };
-        setStatus(`Detected: ${label}`, 'detected');
+        setStatus(tf('detectedLabel', lang, { label }), 'detected');
         setLocationBtn.disabled = false;
       } catch {
         pendingLocation = { latitude, longitude, label: `${latitude.toFixed(4)}, ${longitude.toFixed(4)}` };
-        setStatus('Detected coordinates, but could not resolve an address.', 'detected');
+        setStatus(t('locationDetectedNoAddress', lang), 'detected');
         setLocationBtn.disabled = false;
       }
     },
     (error) => {
-      setStatus(`Could not detect location: ${error.message}`, 'error');
+      setStatus(tf('couldNotDetect', lang, { error: error.message }), 'error');
     }
   );
 });
@@ -87,7 +89,7 @@ setLocationBtn.addEventListener('click', async () => {
   if (!pendingLocation) return;
   await setStorage({ location: pendingLocation });
   currentLocationText.textContent = pendingLocation.label;
-  setStatus('Location saved.', 'detected');
+  setStatus(t('locationSaved', lang), 'detected');
 });
 
 addressInput.addEventListener('input', () => {
@@ -117,7 +119,7 @@ saveAddressBtn.addEventListener('click', async () => {
   await setStorage({ location });
   currentLocationText.textContent = location.label;
   showView('automatic');
-  setStatus('Location saved.', 'detected');
+  setStatus(t('locationSaved', lang), 'detected');
 });
 
 async function reverseGeocode(lat, lon) {
@@ -151,7 +153,9 @@ function renderResults(results) {
 
   const countEl = document.createElement('div');
   countEl.className = 'results-list__count';
-  countEl.textContent = `${results.length} RESULT${results.length === 1 ? '' : 'S'}`;
+  countEl.textContent = results.length === 1
+    ? tf('resultsCount', lang, { count: results.length })
+    : tf('resultsCountPlural', lang, { count: results.length });
   resultsList.appendChild(countEl);
 
   results.forEach((result) => {
@@ -190,4 +194,11 @@ function renderResults(results) {
   resultsList.classList.remove('hidden');
 }
 
-loadSavedLocation();
+async function init() {
+  lang = await getLanguage();
+  applyTranslations(lang);
+  addressInput.placeholder = t('addressPlaceholder', lang);
+  await loadSavedLocation();
+}
+
+init();
