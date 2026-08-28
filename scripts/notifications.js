@@ -1,21 +1,28 @@
-import { getStorage } from './storage.js';
-import { getSettings } from './settings-store.js';
-import { calculatePrayerTimes } from './prayer-times.js';
-import { NOTIFIABLE_PRAYERS, getNotificationSettings } from './notification-settings.js';
-import { playAdhan, stopAdhan } from './adhan-audio.js';
+import { getStorage } from "./storage.js";
+import { getSettings } from "./settings-store.js";
+import { calculatePrayerTimes } from "./prayer-times.js";
+import {
+  NOTIFIABLE_PRAYERS,
+  getNotificationSettings,
+} from "./notification-settings.js";
+import { playAdhan, stopAdhan } from "./adhan-audio.js";
 
-const PREFIX = 'notif:';
+const PREFIX = "notif:";
 
-const LABELS = Object.fromEntries(NOTIFIABLE_PRAYERS.map(p => [p.key, p.label]));
+const LABELS = Object.fromEntries(
+  NOTIFIABLE_PRAYERS.map((p) => [p.key, p.label]),
+);
 
 export function isNotificationAlarm(name) {
-  return typeof name === 'string' && name.startsWith(PREFIX);
+  return typeof name === "string" && name.startsWith(PREFIX);
 }
 
 async function clearNotificationAlarms() {
   const alarms = await chrome.alarms.getAll();
   await Promise.all(
-    alarms.filter(a => isNotificationAlarm(a.name)).map(a => chrome.alarms.clear(a.name))
+    alarms
+      .filter((a) => isNotificationAlarm(a.name))
+      .map((a) => chrome.alarms.clear(a.name)),
   );
 }
 
@@ -28,7 +35,7 @@ export async function scheduleNotifications() {
     if (!notif.enabled) return;
 
     const [{ location }, settings] = await Promise.all([
-      getStorage('location'),
+      getStorage("location"),
       getSettings(),
     ]);
     if (!location) return;
@@ -52,7 +59,7 @@ export async function scheduleNotifications() {
       chrome.alarms.create(PREFIX + key, { when });
     }
   } catch (err) {
-    console.error('Scheduling notifications failed:', err);
+    console.error("Scheduling notifications failed:", err);
   }
 }
 
@@ -66,20 +73,19 @@ export async function handleNotificationAlarm(name) {
   if (!notif.enabled || !notif.prayers[key]) return;
 
   const lead = notif.leadTime ?? 0;
-  const message = lead === 0
-    ? `It is time for ${label}.`
-    : `${label} is in ${lead} minutes.`;
+  const message =
+    lead === 0 ? `It is time for ${label}.` : `${label} is in ${lead} minutes.`;
 
   const withSound = notif.sound && lead === 0 && notif.volume > 0;
 
   chrome.notifications.create(`${PREFIX}${key}:${Date.now()}`, {
-    type: 'basic',
-    iconUrl: chrome.runtime.getURL('media/moon.png'),
-    title: 'Miqat',
+    type: "basic",
+    iconUrl: chrome.runtime.getURL("media/masjid.png"),
+    title: "Miqat",
     message,
     priority: 2,
     requireInteraction: withSound,
-    buttons: withSound ? [{ title: 'Stop adhan' }] : [],
+    buttons: withSound ? [{ title: "Stop adhan" }] : [],
   });
 
   if (withSound) playAdhan(notif.soundFile, notif.volume);

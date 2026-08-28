@@ -7,17 +7,23 @@
     "default_title": "Open Miqat",
     "default_popup": "pages/popup/popup.html",
     "default_icon": {
-      "16": "media/moon.png",
-      "48": "media/moon.png",
-      "128": "media/moon.png"
+      "16": "media/masjid.png",
+      "48": "media/masjid.png",
+      "128": "media/masjid.png"
     }
   },
   "icons": {
-    "16": "media/moon.png",
-    "48": "media/moon.png",
-    "128": "media/moon.png"
+    "16": "media/masjid.png",
+    "48": "media/masjid.png",
+    "128": "media/masjid.png"
   },
-  "permissions": ["storage", "geolocation", "alarms", "notifications", "offscreen"],
+  "permissions": [
+    "storage",
+    "geolocation",
+    "alarms",
+    "notifications",
+    "offscreen"
+  ],
   "background": {
     "service_worker": "scripts/background.js",
     "type": "module"
