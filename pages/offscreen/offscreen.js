@@ -9,6 +9,7 @@ chrome.runtime.onMessage.addListener((msg) => {
     player.volume = typeof msg.volume === 'number' ? msg.volume : 1;
     player.currentTime = 0;
     player.play().catch((err) => console.error('Adhan playback failed:', err));
+    chrome.runtime.sendMessage({ type: 'adhanStarted' }).catch(() => {});
 
     player.onended = () => {
       chrome.runtime.sendMessage({ type: 'adhanFinished' }).catch(() => {});

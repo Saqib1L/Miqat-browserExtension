@@ -12,7 +12,7 @@ export const PRESET_TIMES = [5, 10, 15];
 
 export const ADHAN_SOUNDS = [
   { file: 'madinah.opus',     label: 'Madinah Adhan' },
-  { file: 'islam-sobhi.opus', label: 'Islam Sobhi' },
+  { file: 'islam-sobhi.opus', label: 'Adhan by Islam Sobhi' },
 ];
 
 export const ATTENTION_SOUND = 'attention.mp3';

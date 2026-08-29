@@ -26,6 +26,7 @@ chrome.notifications.onButtonClicked.addListener((id) => {
   if (isNotificationAlarm(id)) {
     stopAdhan();
     chrome.notifications.clear(id);
+    chrome.storage.session.remove('activeNotifId');
   }
 });
 
@@ -33,7 +34,22 @@ chrome.notifications.onClosed.addListener(handleNotificationClosed);
 chrome.notifications.onClicked.addListener(handleNotificationClosed);
 
 chrome.runtime.onMessage.addListener((msg) => {
-  if (msg?.type === 'adhanFinished') closeAdhanPlayer();
+  if (msg?.type === 'adhanStarted') {
+    chrome.storage.session.set({ adhanPlaying: true });
+  }
+  if (msg?.type === 'adhanFinished') {
+    chrome.storage.session.set({ adhanPlaying: false });
+    closeAdhanPlayer();
+  }
+  if (msg?.type === 'stopAdhan') {
+    stopAdhan();
+    chrome.storage.session.get('activeNotifId').then(({ activeNotifId }) => {
+      if (activeNotifId) {
+        chrome.notifications.clear(activeNotifId);
+        chrome.storage.session.remove('activeNotifId');
+      }
+    });
+  }
 });
 
 chrome.storage.onChanged.addListener((changes, areaName) => {

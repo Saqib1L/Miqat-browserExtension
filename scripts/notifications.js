@@ -119,7 +119,8 @@ export async function handleNotificationAlarm(name) {
 
   const withSound = !isReminder && !isPost && notif.sound && notif.volume > 0;
 
-  chrome.notifications.create(`${prefix}${key}:${Date.now()}`, {
+  const notifId = `${prefix}${key}:${Date.now()}`;
+  chrome.notifications.create(notifId, {
     type: "basic",
     iconUrl: chrome.runtime.getURL("media/masjid.png"),
     title: "Miqat",
@@ -129,7 +130,10 @@ export async function handleNotificationAlarm(name) {
     buttons: withSound ? [{ title: "Stop adhan" }] : [],
   });
 
-  if (withSound) playAdhan(notif.soundFile, notif.volume);
+  if (withSound) {
+    chrome.storage.session.set({ activeNotifId: notifId });
+    playAdhan(notif.soundFile, notif.volume);
+  }
   if (isReminder) playAdhan(ATTENTION_SOUND, 1.0);
 
   scheduleNotifications();

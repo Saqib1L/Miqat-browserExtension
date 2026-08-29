@@ -33,6 +33,8 @@ const els = {
   nextPrayerCountdown: document.getElementById("nextPrayerCountdown"),
   gregorianDate: document.getElementById("gregorianDate"),
   hijriDate: document.getElementById("hijriDate"),
+  adhanBanner: document.getElementById("adhanBanner"),
+  adhanStopBtn: document.getElementById("adhanStopBtn"),
 };
 
 let dayOffset = 0;
@@ -81,6 +83,27 @@ async function initVolumeButton() {
   if (volume > 0) lastVolume = volume;
   updateVolumeButton(volume);
 }
+
+function setAdhanBannerVisible(visible) {
+  els.adhanBanner.hidden = !visible;
+  document.body.classList.toggle("adhan-active", visible);
+}
+
+async function initAdhanBanner() {
+  const result = await chrome.storage.session.get("adhanPlaying");
+  setAdhanBannerVisible(result.adhanPlaying === true);
+}
+
+els.adhanStopBtn.addEventListener("click", async () => {
+  await chrome.runtime.sendMessage({ type: "stopAdhan" });
+  setAdhanBannerVisible(false);
+});
+
+chrome.storage.session.onChanged.addListener((changes) => {
+  if ("adhanPlaying" in changes) {
+    setAdhanBannerVisible(changes.adhanPlaying.newValue === true);
+  }
+});
 
 els.userLocation.addEventListener("click", () => {
   window.location.href = "../location/location.html?from=popup";
@@ -236,4 +259,5 @@ function highlightActivePrayer(activePrayer) {
 }
 
 initVolumeButton();
+initAdhanBanner();
 renderPrayerTimes();
