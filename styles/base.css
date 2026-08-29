@@ -28,8 +28,9 @@ body[data-theme="dark"] {
 
   --accent-navy: #101a2f;
 
-  --scrollbar-thumb: rgba(255, 253, 248, 0.15);
-  --scrollbar-thumb-hover: rgba(255, 253, 248, 0.3);
+  --scrollbar-track: #1a2640;
+  --scrollbar-thumb: #fffdf8;
+  --scrollbar-thumb-hover: #eee7d8;
 }
 
 /* ============================================================
@@ -52,8 +53,9 @@ body[data-theme="light"] {
 
   --active-outline: #101a2f;
 
-  --scrollbar-thumb: rgba(11, 19, 38, 0.15);
-  --scrollbar-thumb-hover: rgba(11, 19, 38, 0.3);
+  --scrollbar-track: #e4e0d8;
+  --scrollbar-thumb: #101a2f;
+  --scrollbar-thumb-hover: #1a2640;
 }
 
 body[data-theme="light"] .prayer-card,
@@ -93,20 +95,30 @@ body {
    ============================================================ */
 
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+  height: 0;
+  width: 0;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--scrollbar-track);
+  border-radius: 0;
+  margin: 0;
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--scrollbar-thumb);
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--scrollbar-thumb-hover);
+  border-radius: 10px;
+  border: 1px solid var(--scrollbar-track);
 }
 
 /* ============================================================

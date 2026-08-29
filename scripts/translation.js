@@ -17,7 +17,7 @@ export const TRANSLATIONS = {
     maghrib: "Maghrib",
     isha: "Isha",
     prayerAdjustmentsTitle: "Prayer Time Adjustments",
-    prayerAdjustmentsHint: "Offset each prayer time in minutes (±60). Today's times update below as you adjust.",
+    prayerAdjustmentsHint: "Adjust prayer times if they slightly differ from the actual times at your local mosque.",
     madhabTitle: "Madhab",
     madhabHint: "Determines the method used to calculate Asr prayer time.",
     madhabShafi: "Standard (Shafi'i, Maliki, Hanbali)",
