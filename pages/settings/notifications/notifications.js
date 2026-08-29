@@ -7,6 +7,9 @@ import {
 } from "../../../scripts/notification-settings.js";
 
 import { initTheme } from "../../../scripts/theme.js";
+import { getLanguage, applyTranslations, t, tf } from "../../../scripts/translation.js";
+
+let lang = "en";
 
 initTheme();
 
@@ -49,9 +52,10 @@ const PAUSE_SVG = `<rect x="7" y="5" width="4" height="14"></rect><rect x="13" y
 let lastVolume = 0.8;
 
 function timePickerHTML(key, type, activeTime, isCustom, visible) {
+  const suffix = t("notifMinuteSuffix", lang);
   const presets = PRESET_TIMES.map(m => `
     <button type="button" class="prayer-time-btn ${!isCustom && m === activeTime ? "is-active" : ""}"
-      data-prayer="${key}" data-type="${type}" data-minutes="${m}">${m}m</button>
+      data-prayer="${key}" data-type="${type}" data-minutes="${m}">${m}${suffix}</button>
   `).join("");
 
   const customInput = `
@@ -59,7 +63,7 @@ function timePickerHTML(key, type, activeTime, isCustom, visible) {
       min="1" max="120" placeholder="–"
       value="${isCustom ? activeTime : ""}"
       data-prayer="${key}" data-type="${type}"
-      aria-label="Custom minutes">
+      aria-label="${t("notifCustomMinutesAria", lang)}">
   `;
 
   return `
@@ -72,7 +76,7 @@ function timePickerHTML(key, type, activeTime, isCustom, visible) {
 function renderPrayerCards(prayers) {
   prayerToggles.innerHTML = "";
 
-  for (const { key, label } of NOTIFIABLE_PRAYERS) {
+  for (const { key, i18n } of NOTIFIABLE_PRAYERS) {
     const p = prayers[key];
 
     const card = document.createElement("div");
@@ -81,18 +85,18 @@ function renderPrayerCards(prayers) {
 
     card.innerHTML = `
       <div class="prayer-card__header">
-        <span class="prayer-card__label">${label}</span>
+        <span class="prayer-card__label">${t(key, lang)}</span>
       </div>
       <div class="prayer-card__rows">
         <div class="prayer-card__row">
-          <span class="prayer-card__row-label">At adhan time</span>
+          <span class="prayer-card__row-label">${t("notifAtAdhan", lang)}</span>
           <label class="toggle">
             <input type="checkbox" data-prayer="${key}" data-field="atTime" ${p.atTime ? "checked" : ""}>
             <span class="toggle__track"></span>
           </label>
         </div>
         <div class="prayer-card__row">
-          <span class="prayer-card__row-label">Pre-adhan reminder</span>
+          <span class="prayer-card__row-label">${t("notifPreReminder", lang)}</span>
           <label class="toggle">
             <input type="checkbox" data-prayer="${key}" data-field="reminder" ${p.reminder ? "checked" : ""}>
             <span class="toggle__track"></span>
@@ -102,7 +106,7 @@ function renderPrayerCards(prayers) {
       ${timePickerHTML(key, "reminder", p.reminderTime, p.reminderCustom, p.reminder)}
       <div class="prayer-card__rows">
         <div class="prayer-card__row">
-          <span class="prayer-card__row-label">Post-adhan</span>
+          <span class="prayer-card__row-label">${t("notifPostAdhan", lang)}</span>
           <label class="toggle">
             <input type="checkbox" data-prayer="${key}" data-field="post" ${p.post ? "checked" : ""}>
             <span class="toggle__track"></span>
@@ -118,7 +122,8 @@ function renderPrayerCards(prayers) {
 function renderSounds(activeFile) {
   soundDropdownMenu.innerHTML = "";
 
-  for (const { file, label } of ADHAN_SOUNDS) {
+  for (const { file, key } of ADHAN_SOUNDS) {
+    const label = t(key, lang);
     const option = document.createElement("button");
     option.type = "button";
     option.className = "sound-dropdown__option";
@@ -147,14 +152,14 @@ function renderVolume(volume) {
   const muted = pct === 0;
   muteIcon.innerHTML = muted ? SPEAKER_OFF : SPEAKER_ON;
   muteBtn.setAttribute("aria-pressed", String(muted));
-  muteBtn.setAttribute("aria-label", muted ? "Unmute" : "Mute");
+  muteBtn.setAttribute("aria-label", t(muted ? "unmuteLabel" : "muteLabel", lang));
   if (previewEl) previewEl.volume = volume;
 }
 
 function updatePlayButton(playing) {
   soundPlayIcon.innerHTML = playing ? PAUSE_SVG : PLAY_SVG;
-  soundPlayLabel.textContent = playing ? "Pause" : "Play";
-  soundPlayBtn.setAttribute("aria-label", playing ? "Pause selected adhan" : "Play selected adhan");
+  soundPlayLabel.textContent = t(playing ? "pauseLabel" : "playLabel", lang);
+  soundPlayBtn.setAttribute("aria-label", t(playing ? "pauseAria" : "playAria", lang));
 }
 
 function applyEnabledState(enabled) {
@@ -198,7 +203,7 @@ masterToggle.addEventListener("change", async () => {
     if (!granted) {
       masterToggle.checked = false;
       applyEnabledState(false);
-      alert("Notifications are blocked for this browser. Enable them in your browser and system notification settings, then try again.");
+      alert(t("notificationsBlocked", lang));
       return;
     }
   }
@@ -327,6 +332,8 @@ window.addEventListener("pagehide", () => {
 });
 
 (async function init() {
+  lang = await getLanguage();
+  applyTranslations(lang);
   const settings = await getNotificationSettings();
   masterToggle.checked = settings.enabled;
   applyEnabledState(settings.enabled);

@@ -24,8 +24,10 @@ export function formatHijriDate(date, adjustment = 0, locale = "en") {
   }
 }
 
-export function formatHijriOffset(adjustment = 0) {
-  if (!adjustment) return "No adjustment";
+export function formatHijriOffset(adjustment = 0, lang = "en", t = null) {
+  if (!adjustment) return t ? t("hijriNoAdjustment", lang) : "No adjustment";
   const abs = Math.abs(adjustment);
-  return `${adjustment > 0 ? "+" : "\u2212"}${abs} day${abs !== 1 ? "s" : ""}`;
+  const sign = adjustment > 0 ? "+" : "\u2212";
+  const unit = t ? t(abs === 1 ? "unitDay" : "unitDays", lang) : (abs === 1 ? "day" : "days");
+  return `${sign}${abs} ${unit}`;
 }

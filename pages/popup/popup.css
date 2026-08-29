@@ -439,3 +439,20 @@ body[data-theme="light"] .today-pill.away-from-today {
   font-weight: 600;
   color: var(--text-primary);
 }
+/* RTL: keep clock times and countdown in LTR order */
+.prayer-time,
+.next-prayer-countdown,
+.hijri-date,
+.gregorian-date {
+  unicode-bidi: isolate;
+}
+
+.prayer-time {
+  direction: ltr;
+}
+
+[dir="rtl"] .prayer-row__time,
+[dir="rtl"] .countdown__value,
+[dir="rtl"] .next-prayer__time {
+  text-align: left;
+}

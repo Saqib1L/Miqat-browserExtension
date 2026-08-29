@@ -200,21 +200,27 @@ function renderToday(prayerTimes, location) {
 }
 
 function renderOtherDay(selectedDate) {
-  els.currentPrayerName.textContent = selectedDate.toLocaleDateString("en-US", {
+  els.currentPrayerName.textContent = selectedDate.toLocaleDateString(lang, {
     month: "short",
     day: "numeric",
   });
-  els.nextPrayerCountdown.textContent = dayOffset > 0 ? "Upcoming day" : "Past day";
-  highlightActivePrayer(null);
+  els.nextPrayerCountdown.textContent = t(
+    dayOffset > 0 ? "upcomingDay" : "pastDay",
+    lang
+  );
 }
 
 function renderDates(selectedDate) {
-  els.gregorianDate.textContent = selectedDate.toLocaleDateString("en-US", {
+  els.gregorianDate.textContent = selectedDate.toLocaleDateString(lang, {
     weekday: "long",
     day: "numeric",
     month: "long",
   });
-  els.hijriDate.textContent = formatHijriDate(selectedDate, settings?.hijriAdjustment ?? 0);
+  els.hijriDate.textContent = formatHijriDate(
+    selectedDate,
+    settings?.hijriAdjustment ?? 0,
+    lang
+  );
 }
 
 function renderPrayerCards(prayerTimes) {

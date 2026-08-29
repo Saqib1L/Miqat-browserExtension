@@ -7,14 +7,12 @@ import {
   getNotificationSettings,
 } from "./notification-settings.js";
 import { playAdhan, stopAdhan } from "./adhan-audio.js";
+import { getLanguage, t, tf } from "./translation.js";
 
 const PREFIX_AT = "notif:";
 const PREFIX_REMINDER = "notif-reminder:";
 const PREFIX_POST = "notif-post:";
 
-const LABELS = Object.fromEntries(
-  NOTIFIABLE_PRAYERS.map((p) => [p.key, p.label]),
-);
 
 export function isNotificationAlarm(name) {
   return (
@@ -96,8 +94,8 @@ export async function handleNotificationAlarm(name) {
   const isPost = name.startsWith(PREFIX_POST);
   const prefix = isReminder ? PREFIX_REMINDER : isPost ? PREFIX_POST : PREFIX_AT;
   const key = name.slice(prefix.length);
-  const label = LABELS[key];
-  if (!label) return;
+  
+ if (!NOTIFIABLE_PRAYERS.some((p) => p.key === key)) return;
 
   const notif = await getNotificationSettings();
   if (!notif.enabled) return;
@@ -108,13 +106,16 @@ export async function handleNotificationAlarm(name) {
   if (isPost && !prayer.post) return;
   if (!isReminder && !isPost && !prayer.atTime) return;
 
+  const lang = await getLanguage();
+  const label = t(key, lang);
+
   let message;
   if (isReminder) {
-    message = `${label} is in ${prayer.reminderTime} minutes.`;
+    message = tf("notifMsgReminder", lang, { prayer: label, minutes: prayer.reminderTime });
   } else if (isPost) {
-    message = `It has been ${prayer.postTime} minutes since ${label}.`;
+    message = tf("notifMsgPost", lang, { prayer: label, minutes: prayer.postTime });
   } else {
-    message = `It is time for ${label}.`;
+    message = tf("notifMsgAtTime", lang, { prayer: label });
   }
 
   const withSound = !isReminder && !isPost && notif.sound && notif.volume > 0;
@@ -127,7 +128,7 @@ export async function handleNotificationAlarm(name) {
     message,
     priority: 2,
     requireInteraction: withSound,
-    buttons: withSound ? [{ title: "Stop adhan" }] : [],
+    buttons: withSound ? [{ title: t("notifStopAdhan", lang) }] : [],
   });
 
   if (withSound) {

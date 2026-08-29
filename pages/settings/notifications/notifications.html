@@ -9,19 +9,19 @@
 <body>
   <div class="extension-container">
     <header class="topbar">
-      <button class="icon-button" id="backBtn" aria-label="Back">
+      <button class="icon-button" id="backBtn" data-i18n-aria="back" aria-label="Back">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
       </button>
-      <h1 class="topbar__title">Notifications</h1>
+      <h1 class="topbar__title" data-i18n="notificationsTitle">Notifications</h1>
     </header>
 
-    <div class="info-box">Get a desktop alert at prayer time. Miqat must be allowed to show notifications in your browser and system settings.</div>
+    <div class="info-box" data-i18n="notificationsInfoBox">Get a desktop alert at prayer time. Miqat must be allowed to show notifications in your browser and system settings.</div>
 
     <div class="toggle-list">
       <div class="toggle-row">
-        <span class="toggle-row__label">Enable Notifications</span>
+        <span class="toggle-row__label" data-i18n="notificationsEnable">Enable Notifications</span>
         <label class="toggle">
           <input type="checkbox" id="masterToggle">
           <span class="toggle__track"></span>
@@ -31,14 +31,14 @@
 
     <div id="detailSection">
       <div class="settings-divider"></div>
-      <div class="settings-section-label">Prayers</div>
+      <div class="settings-section-label" data-i18n="notificationsPrayers">Prayers</div>
       <div id="prayerToggles"></div>
 
       <div class="settings-divider"></div>
-      <div class="settings-section-label">Adhan Sound</div>
+      <div class="settings-section-label" data-i18n="adhanSoundSection">Adhan Sound</div>
       <div class="toggle-list">
         <div class="toggle-row">
-          <span class="toggle-row__label">Play Adhan</span>
+          <span class="toggle-row__label" data-i18n="adhanPlay">Play Adhan</span>
           <label class="toggle">
             <input type="checkbox" id="soundToggle">
             <span class="toggle__track"></span>
@@ -49,7 +49,7 @@
       <div id="soundSection">
         <div class="sound-card">
           <div class="sound-card__selector">
-            <span class="sound-card__label">Sound</span>
+            <span class="sound-card__label" data-i18n="adhanSoundLabel">Sound</span>
             <div class="sound-dropdown" id="soundDropdown">
               <button type="button" class="sound-dropdown__button" id="soundDropdownButton" aria-haspopup="listbox" aria-expanded="false">
                 <span id="soundDropdownValue"></span>
@@ -60,29 +60,29 @@
               <div class="sound-dropdown__menu" id="soundDropdownMenu" role="listbox"></div>
             </div>
           </div>
-          <button type="button" class="sound-card__play" id="soundPlayBtn" aria-label="Play selected adhan">
+          <button type="button" class="sound-card__play" id="soundPlayBtn" data-i18n-aria="playAria" aria-label="Play selected adhan">
             <svg class="icon" id="soundPlayIcon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <polygon points="8 5 19 12 8 19"></polygon>
             </svg>
-            <span id="soundPlayLabel">Play</span>
+            <span id="soundPlayLabel" data-i18n="playLabel">Play</span>
           </button>
         </div>
 
-        <div class="settings-section-label">Sound Level</div>
+        <div class="settings-section-label" data-i18n="soundLevelSection">Sound Level</div>  
         <div class="volume-card">
           <div class="volume-card__readout">
             <span class="volume-card__percent" id="volumePercent">80%</span>
           </div>
           <div class="volume-card__controls">
-            <button type="button" class="volume-mute" id="muteBtn" aria-label="Mute" aria-pressed="false">
+            <button type="button" class="volume-mute" id="muteBtn" data-i18n-aria="muteLabel" aria-label="Mute" aria-pressed="false">
               <svg class="icon" id="muteIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
                 <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
               </svg>
             </button>
-            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" step="1" value="80" aria-label="Notification sound level">
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" step="1" value="80" data-i18n-aria="volumeSliderAria" aria-label="Notification sound level">
           </div>
-          <p class="page-hint">The selected sound level depends on your system volume.</p>
+          <p class="page-hint" data-i18n="soundLevelHint">The selected sound level depends on your system volume.</p>
         </div>
       </div>
     </div>

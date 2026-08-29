@@ -1,18 +1,18 @@
 import { getStorage, setStorage } from './storage.js';
 
 export const NOTIFIABLE_PRAYERS = [
-  { key: 'fajr',    label: 'Fajr' },
-  { key: 'dhuhr',   label: 'Dhuhr' },
-  { key: 'asr',     label: 'Asr' },
-  { key: 'maghrib', label: 'Maghrib' },
-  { key: 'isha',    label: 'Isha' },
+  { key: 'fajr',    i18n: 'fajr' },
+  { key: 'dhuhr',   i18n: 'dhuhr' },
+  { key: 'asr',     i18n: 'asr' },
+  { key: 'maghrib', i18n: 'maghrib' },
+  { key: 'isha',    i18n: 'isha' },
 ];
 
 export const PRESET_TIMES = [5, 10, 15];
 
 export const ADHAN_SOUNDS = [
-  { file: 'madinah.opus',     label: 'Madinah Adhan' },
-  { file: 'islam-sobhi.opus', label: 'Adhan by Islam Sobhi' },
+  { file: 'madinah.opus',     key: 'adhanSoundMadinah' },
+  { file: 'islam-sobhi.opus', key: 'adhanSoundIslamSobhi' },
 ];
 
 export const ATTENTION_SOUND = 'attention.mp3';
