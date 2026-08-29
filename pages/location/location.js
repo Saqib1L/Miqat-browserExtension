@@ -10,12 +10,13 @@ const currentLocationText = document.getElementById('currentLocationText');
 const automaticView = document.getElementById('automaticView');
 const manualView = document.getElementById('manualView');
 
+const tabSwitcher = document.getElementById('tabSwitcher');
+const tabAutomatic = document.getElementById('tabAutomatic');
+const tabManual = document.getElementById('tabManual');
+
 const detectBtn = document.getElementById('detectLocationBtn');
-const statusRow = document.getElementById('statusRow');
 const statusText = document.getElementById('statusText');
 const setLocationBtn = document.getElementById('setLocationBtn');
-const showManualBtn = document.getElementById('showManualBtn');
-const showAutomaticBtn = document.getElementById('showAutomaticBtn');
 
 const addressInput = document.getElementById('addressInput');
 const resultsList = document.getElementById('resultsList');
@@ -28,13 +29,17 @@ let lang = 'en';
 
 function setStatus(text, state) {
   statusText.textContent = text;
-  statusRow.classList.remove('detected', 'error');
-  if (state) statusRow.classList.add(state);
+  statusText.classList.remove('detected', 'error');
+  if (state) statusText.classList.add(state);
 }
 
 function showView(view) {
-  automaticView.classList.toggle('hidden', view !== 'automatic');
-  manualView.classList.toggle('hidden', view !== 'manual');
+  const isAutomatic = view === 'automatic';
+  automaticView.classList.toggle('hidden', !isAutomatic);
+  manualView.classList.toggle('hidden', isAutomatic);
+  tabAutomatic.classList.toggle('active', isAutomatic);
+  tabManual.classList.toggle('active', !isAutomatic);
+  tabSwitcher.classList.toggle('manual-active', !isAutomatic);
 }
 
 async function loadSavedLocation() {
@@ -51,8 +56,8 @@ backBtn.addEventListener('click', () => {
     : '../popup/popup.html';
 });
 
-showManualBtn.addEventListener('click', () => showView('manual'));
-showAutomaticBtn.addEventListener('click', () => showView('automatic'));
+tabAutomatic.addEventListener('click', () => showView('automatic'));
+tabManual.addEventListener('click', () => showView('manual'));
 
 detectBtn.addEventListener('click', () => {
   if (!navigator.geolocation) {
@@ -61,7 +66,7 @@ detectBtn.addEventListener('click', () => {
   }
 
   setStatus(t('detectingLocation', lang));
-  setLocationBtn.disabled = true;
+  setLocationBtn.classList.add('hidden');
   pendingLocation = null;
 
   navigator.geolocation.getCurrentPosition(
@@ -72,11 +77,11 @@ detectBtn.addEventListener('click', () => {
         const label = await reverseGeocode(latitude, longitude);
         pendingLocation = { latitude, longitude, label };
         setStatus(tf('detectedLabel', lang, { label }), 'detected');
-        setLocationBtn.disabled = false;
+        setLocationBtn.classList.remove('hidden');
       } catch {
         pendingLocation = { latitude, longitude, label: `${latitude.toFixed(4)}, ${longitude.toFixed(4)}` };
         setStatus(t('locationDetectedNoAddress', lang), 'detected');
-        setLocationBtn.disabled = false;
+        setLocationBtn.classList.remove('hidden');
       }
     },
     (error) => {
@@ -94,7 +99,7 @@ setLocationBtn.addEventListener('click', async () => {
 
 addressInput.addEventListener('input', () => {
   clearTimeout(searchDebounce);
-  saveAddressBtn.disabled = true;
+  saveAddressBtn.classList.add('hidden');
   selectedResult = null;
 
   const query = addressInput.value.trim();
@@ -118,8 +123,10 @@ saveAddressBtn.addEventListener('click', async () => {
 
   await setStorage({ location });
   currentLocationText.textContent = location.label;
-  showView('automatic');
-  setStatus(t('locationSaved', lang), 'detected');
+  saveAddressBtn.querySelector('span').textContent = t('locationSaved', lang);
+  setTimeout(() => {
+    saveAddressBtn.querySelector('span').textContent = t('saveAddress', lang);
+  }, 1500);
 });
 
 async function reverseGeocode(lat, lon) {
@@ -151,13 +158,6 @@ function renderResults(results) {
     return;
   }
 
-  const countEl = document.createElement('div');
-  countEl.className = 'results-list__count';
-  countEl.textContent = results.length === 1
-    ? tf('resultsCount', lang, { count: results.length })
-    : tf('resultsCountPlural', lang, { count: results.length });
-  resultsList.appendChild(countEl);
-
   results.forEach((result) => {
     const item = document.createElement('li');
     item.className = 'result-item';
@@ -185,7 +185,7 @@ function renderResults(results) {
       };
       addressInput.value = name;
       resultsList.classList.add('hidden');
-      saveAddressBtn.disabled = false;
+      saveAddressBtn.classList.remove('hidden');
     });
 
     resultsList.appendChild(item);

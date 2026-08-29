@@ -28,18 +28,15 @@
       <span id="currentLocationText" data-i18n="noLocationSet">No location set</span>
     </div>
 
+    <div class="tab-switcher" id="tabSwitcher">
+      <span class="tab-indicator" id="tabIndicator"></span>
+      <button class="tab-btn active" id="tabAutomatic" type="button">Automatic</button>
+      <button class="tab-btn" id="tabManual" type="button">Manual</button>
+    </div>
+
     <!-- ===== Automatic detection view ===== -->
     <section class="location-view" id="automaticView">
-      <div class="section-heading">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="9"/>
-          <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/>
-        </svg>
-        <div>
-          <h2 data-i18n="automaticLocationTitle">Automatic Location</h2>
-          <p data-i18n="automaticLocationHint">Automatically detect your location for accurate prayer times.</p>
-        </div>
-      </div>
+      <p class="view-desc" data-i18n="automaticLocationHint">Automatically detect your location for accurate prayer times.</p>
 
       <button class="primary-btn" id="detectLocationBtn">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -49,47 +46,22 @@
         <span data-i18n="detectMyLocation">Detect My Location</span>
       </button>
 
-      <div class="status-row" id="statusRow">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="9"/>
-          <path d="M12 8v5M12 16h.01"/>
-        </svg>
-        <span id="statusText" data-i18n="readyToDetect">Ready to detect location</span>
-      </div>
+      <p class="status-text" id="statusText" data-i18n="readyToDetect">Ready to detect location</p>
 
-      <button class="confirm-btn" id="setLocationBtn" disabled>
+      <button class="confirm-btn hidden" id="setLocationBtn">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M20 6L9 17l-5-5"/>
         </svg>
         <span data-i18n="setLocation">Set Location</span>
       </button>
 
-      <button class="secondary-btn" id="showManualBtn">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-        </svg>
-        <span data-i18n="enterAddressManually">Enter Address Manually</span>
-      </button>
-
-      <div class="tip-box">
-        <span class="tip-box__icon">!</span>
-        <p><strong data-i18n="locationImportantPrefix">Important:</strong> <span data-i18n="locationImportantNote">if the detected location is incorrect, check that GPS and browser location permissions are enabled, then try again. You can also enter your address manually.</span></p>
-      </div>
+      <p class="helper-text"><span data-i18n="locationImportantNote">If the detected location is incorrect, check that GPS and browser location permissions are enabled, then try again.</span></p>
     </section>
 
     <!-- ===== Manual entry view ===== -->
     <section class="location-view hidden" id="manualView">
-      <div class="section-heading">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-        </svg>
-        <div>
-          <h2 data-i18n="enterAddressTitle">Enter Address Manually</h2>
-          <p data-i18n="enterAddressHint">If automatic detection fails, enter your address instead.</p>
-        </div>
-      </div>
+      <p class="view-desc" data-i18n="enterAddressHint">If automatic detection fails, enter your address instead.</p>
 
-      <label class="field-label" for="addressInput" data-i18n="addressLabel">Address</label>
       <div class="address-input-wrapper">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
@@ -98,22 +70,15 @@
         <input type="text" id="addressInput" data-i18n-placeholder="addressPlaceholder" placeholder="Enter address" autocomplete="off">
       </div>
 
-      <p class="field-tip" data-i18n="addressTip">Tip: include city and country for better accuracy.</p>
-
       <ul class="results-list hidden" id="resultsList"></ul>
 
-      <button class="confirm-btn" id="saveAddressBtn" disabled>
+      <p class="helper-text" id="manualHelperText" data-i18n="addressTip">Tip: include city and country for better accuracy.</p>
+
+      <button class="confirm-btn hidden" id="saveAddressBtn">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M20 6L9 17l-5-5"/>
         </svg>
         <span data-i18n="saveAddress">Save Address</span>
-      </button>
-
-      <button class="secondary-btn" id="showAutomaticBtn">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M15 18l-6-6 6-6"/>
-        </svg>
-        <span data-i18n="backToAutomatic">Back to Automatic Detection</span>
       </button>
     </section>
 
