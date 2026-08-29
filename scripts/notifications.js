@@ -3,18 +3,26 @@ import { getSettings } from "./settings-store.js";
 import { calculatePrayerTimes } from "./prayer-times.js";
 import {
   NOTIFIABLE_PRAYERS,
+  ATTENTION_SOUND,
   getNotificationSettings,
 } from "./notification-settings.js";
 import { playAdhan, stopAdhan } from "./adhan-audio.js";
 
-const PREFIX = "notif:";
+const PREFIX_AT = "notif:";
+const PREFIX_REMINDER = "notif-reminder:";
+const PREFIX_POST = "notif-post:";
 
 const LABELS = Object.fromEntries(
   NOTIFIABLE_PRAYERS.map((p) => [p.key, p.label]),
 );
 
 export function isNotificationAlarm(name) {
-  return typeof name === "string" && name.startsWith(PREFIX);
+  return (
+    typeof name === "string" &&
+    (name.startsWith(PREFIX_AT) ||
+      name.startsWith(PREFIX_REMINDER) ||
+      name.startsWith(PREFIX_POST))
+  );
 }
 
 async function clearNotificationAlarms() {
@@ -26,7 +34,6 @@ async function clearNotificationAlarms() {
   );
 }
 
-/** Wipe and rebuild every upcoming prayer alarm. Safe to call repeatedly. */
 export async function scheduleNotifications() {
   try {
     await clearNotificationAlarms();
@@ -41,8 +48,6 @@ export async function scheduleNotifications() {
     if (!location) return;
 
     const now = new Date();
-    const leadMs = (notif.leadTime ?? 0) * 60000;
-
     const tomorrow = new Date(now);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
@@ -50,35 +55,71 @@ export async function scheduleNotifications() {
     const next = calculatePrayerTimes(location, tomorrow, settings);
 
     for (const { key } of NOTIFIABLE_PRAYERS) {
-      if (!notif.prayers[key]) continue;
+      const prayer = notif.prayers[key];
 
-      let when = today[key].getTime() - leadMs;
-      if (when <= now.getTime()) when = next[key].getTime() - leadMs;
-      if (when <= now.getTime()) continue;
+      const prayerToday = today[key].getTime();
+      const prayerNext = next[key].getTime();
 
-      chrome.alarms.create(PREFIX + key, { when });
+      if (prayer.atTime) {
+        let when = prayerToday;
+        if (when <= now.getTime()) when = prayerNext;
+        if (when > now.getTime()) {
+          chrome.alarms.create(PREFIX_AT + key, { when });
+        }
+      }
+
+      if (prayer.reminder) {
+        const leadMs = prayer.reminderTime * 60000;
+        let when = prayerToday - leadMs;
+        if (when <= now.getTime()) when = prayerNext - leadMs;
+        if (when > now.getTime()) {
+          chrome.alarms.create(PREFIX_REMINDER + key, { when });
+        }
+      }
+
+      if (prayer.post) {
+        const postMs = prayer.postTime * 60000;
+        let when = prayerToday + postMs;
+        if (when <= now.getTime()) when = prayerNext + postMs;
+        if (when > now.getTime()) {
+          chrome.alarms.create(PREFIX_POST + key, { when });
+        }
+      }
     }
   } catch (err) {
     console.error("Scheduling notifications failed:", err);
   }
 }
 
-/** Fire the desktop notification for a triggered alarm. */
 export async function handleNotificationAlarm(name) {
-  const key = name.slice(PREFIX.length);
+  const isReminder = name.startsWith(PREFIX_REMINDER);
+  const isPost = name.startsWith(PREFIX_POST);
+  const prefix = isReminder ? PREFIX_REMINDER : isPost ? PREFIX_POST : PREFIX_AT;
+  const key = name.slice(prefix.length);
   const label = LABELS[key];
   if (!label) return;
 
   const notif = await getNotificationSettings();
-  if (!notif.enabled || !notif.prayers[key]) return;
+  if (!notif.enabled) return;
 
-  const lead = notif.leadTime ?? 0;
-  const message =
-    lead === 0 ? `It is time for ${label}.` : `${label} is in ${lead} minutes.`;
+  const prayer = notif.prayers[key];
+  if (!prayer) return;
+  if (isReminder && !prayer.reminder) return;
+  if (isPost && !prayer.post) return;
+  if (!isReminder && !isPost && !prayer.atTime) return;
 
-  const withSound = notif.sound && lead === 0 && notif.volume > 0;
+  let message;
+  if (isReminder) {
+    message = `${label} is in ${prayer.reminderTime} minutes.`;
+  } else if (isPost) {
+    message = `It has been ${prayer.postTime} minutes since ${label}.`;
+  } else {
+    message = `It is time for ${label}.`;
+  }
 
-  chrome.notifications.create(`${PREFIX}${key}:${Date.now()}`, {
+  const withSound = !isReminder && !isPost && notif.sound && notif.volume > 0;
+
+  chrome.notifications.create(`${prefix}${key}:${Date.now()}`, {
     type: "basic",
     iconUrl: chrome.runtime.getURL("media/masjid.png"),
     title: "Miqat",
@@ -89,6 +130,7 @@ export async function handleNotificationAlarm(name) {
   });
 
   if (withSound) playAdhan(notif.soundFile, notif.volume);
+  if (isReminder) playAdhan(ATTENTION_SOUND, 1.0);
 
   scheduleNotifications();
 }

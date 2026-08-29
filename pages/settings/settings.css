@@ -862,6 +862,144 @@ body[data-theme="light"] .sound-dropdown__menu {
 }
 
 /* ============================================================
+   PRAYER NOTIFICATION CARDS
+   ============================================================ */
+
+#prayerToggles {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 4px 16px 8px;
+}
+
+.prayer-card {
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  background: var(--card-bg);
+  overflow: hidden;
+}
+
+.prayer-card__header {
+  padding: 10px 12px 6px;
+}
+
+.prayer-card__label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.prayer-card__rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.prayer-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-top: 1px solid var(--card-border);
+}
+
+.prayer-card__row-label {
+  font-size: 0.845rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.prayer-card__times {
+  padding: 8px 12px 10px;
+  border-top: 1px solid var(--card-border);
+}
+
+.prayer-card__times.is-hidden {
+  display: none;
+}
+
+.prayer-time-btns {
+  display: flex;
+  gap: 6px;
+}
+
+.prayer-time-btn {
+  flex: 1;
+  height: 30px;
+  border: 1px solid var(--card-border);
+  border-radius: 7px;
+  background: var(--pill-bg);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.prayer-time-btn:hover {
+  background: var(--pill-hover);
+  color: var(--text-primary);
+}
+
+.prayer-time-btn.is-active {
+  background: var(--card-bg);
+  border-color: var(--active-outline);
+  color: var(--text-primary);
+}
+
+.prayer-custom-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.prayer-custom-input.is-hidden {
+  display: none;
+}
+
+.custom-minutes-input {
+  flex: 1;
+  height: 30px;
+  border: 1px solid var(--card-border);
+  border-radius: 7px;
+  background: var(--pill-bg);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: center;
+  outline: none;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.custom-minutes-input::-webkit-outer-spin-button,
+.custom-minutes-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.custom-minutes-input:focus {
+  border-color: var(--active-outline);
+}
+
+.custom-minutes-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.custom-minutes-input::placeholder {
+  color: var(--text-muted);
+}
+
+.custom-minutes-input:focus,
+.custom-minutes-input.is-active {
+  border-color: var(--active-outline);
+  color: var(--text-primary);
+}
+
+/* ============================================================
    ABOUT SECTION
    ============================================================ */
 
