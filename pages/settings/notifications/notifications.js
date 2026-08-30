@@ -277,10 +277,9 @@ prayerToggles.addEventListener("focusin", (e) => {
   const customInput = e.target.closest(".custom-minutes-input");
   if (!customInput) return;
 
-  if (!customInput.value) return;
   const timesEl = customInput.closest(".prayer-card__times");
   timesEl?.querySelectorAll(".prayer-time-btn").forEach(b => b.classList.remove("is-active"));
-  customInput.classList.add("is-active");
+  if (customInput.value) customInput.classList.add("is-active");
 });
 
 soundToggle.addEventListener("change", async () => {
