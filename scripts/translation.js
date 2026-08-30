@@ -147,6 +147,7 @@ export const TRANSLATIONS = {
     volumeSliderAria: "Notification sound level",
     notifBodyNow: "It is time for {prayer}.",
     notifBodyLead: "{prayer} is in {minutes} minutes.",
+    donateMiqat: "Donate to Miqat",
   },
   ar: {
     missionTitle: "رسالتنا",
@@ -296,6 +297,7 @@ export const TRANSLATIONS = {
     volumeSliderAria: "مستوى صوت الإشعارات",
     notifBodyNow: "حان الآن وقت صلاة {prayer}.",
     notifBodyLead: "بقيت {minutes} دقيقة على صلاة {prayer}.",
+    donateMiqat: "تبرع لميقات",
 },
 ur: {
     missionTitle: "ہمارا مشن",
@@ -445,6 +447,7 @@ ur: {
     volumeSliderAria: "اطلاع کی آواز کی سطح",
     notifBodyNow: "{prayer} کا وقت ہو گیا ہے۔",
     notifBodyLead: "{prayer} میں {minutes} منٹ باقی ہیں۔",
+    donateMiqat: "میقات کو عطیہ دیں",
 },
 fr: {
     missionTitle: "Notre mission",
@@ -594,6 +597,7 @@ fr: {
     volumeSliderAria: "Niveau sonore des notifications",
     notifBodyNow: "C'est l'heure de {prayer}.",
     notifBodyLead: "{prayer} dans {minutes} minutes.",
+    donateMiqat: "Faire un don à Miqat",
 },
 tr: {
     missionTitle: "Misyonumuz",
@@ -743,6 +747,7 @@ tr: {
     volumeSliderAria: "Bildirim ses seviyesi",
     notifBodyNow: "{prayer} vakti girdi.",
     notifBodyLead: "{prayer} vaktine {minutes} dakika kaldı.",
+    donateMiqat: "Miqat'a bağış yap",
 },
 id: {
     missionTitle: "Misi Kami",
@@ -892,6 +897,7 @@ id: {
     volumeSliderAria: "Tingkat suara notifikasi",
     notifBodyNow: "Telah masuk waktu {prayer}.",
     notifBodyLead: "{prayer} dalam {minutes} menit lagi.",
+    donateMiqat: "Donasi untuk Miqat",
 },
 ms: {
     missionTitle: "Misi Kami",
@@ -1041,6 +1047,7 @@ ms: {
     volumeSliderAria: "Tahap bunyi pemberitahuan",
     notifBodyNow: "Telah masuk waktu {prayer}.",
     notifBodyLead: "{prayer} dalam {minutes} minit lagi.",
+    donateMiqat: "Sumbang kepada Miqat",
 },
 bn: {
     missionTitle: "আমাদের লক্ষ্য",
@@ -1190,6 +1197,7 @@ bn: {
     volumeSliderAria: "বিজ্ঞপ্তির শব্দের মাত্রা",
     notifBodyNow: "{prayer} নামাজের সময় হয়েছে।",
     notifBodyLead: "{prayer} নামাজের আর {minutes} মিনিট বাকি।",
+    donateMiqat: "মীকাতে দান করুন",
 },
 pa: {
     missionTitle: "ਸਾਡਾ ਮਿਸ਼ਨ",
@@ -1339,6 +1347,7 @@ pa: {
     volumeSliderAria: "ਸੂਚਨਾ ਦੀ ਆਵਾਜ਼ ਦਾ ਪੱਧਰ",
     notifBodyNow: "{prayer} ਦਾ ਵੇਲਾ ਹੋ ਗਿਆ ਹੈ।",
     notifBodyLead: "{prayer} ਵਿੱਚ {minutes} ਮਿੰਟ ਬਾਕੀ ਹਨ।",
+    donateMiqat: "ਮੀਕਾਤ ਨੂੰ ਦਾਨ ਕਰੋ",
 },
 jv: {
     missionTitle: "Misi Kita",
@@ -1488,6 +1497,7 @@ jv: {
     volumeSliderAria: "Tingkat swara notifikasi",
     notifBodyNow: "Wis wektune {prayer}.",
     notifBodyLead: "{prayer} kurang {minutes} menit.",
+    donateMiqat: "Nyumbang kanggo Miqat",
 },
 ha: {
     missionTitle: "Manufarmu",
@@ -1637,6 +1647,7 @@ ha: {
     volumeSliderAria: "Ƙarfin muryar sanarwa",
     notifBodyNow: "Lokacin {prayer} ya yi.",
     notifBodyLead: "Sauran minti {minutes} zuwa {prayer}.",
+    donateMiqat: "Ba da gudummawa ga Miqat",
 },
 fa: {
     missionTitle: "مأموریت ما",
@@ -1786,6 +1797,7 @@ fa: {
     volumeSliderAria: "میزان صدای اعلان",
     notifBodyNow: "وقت {prayer} فرا رسید.",
     notifBodyLead: "{minutes} دقیقه تا {prayer} باقی است.",
+    donateMiqat: "به میقات کمک کنید",
 },
 sd: {
     missionTitle: "اسان جو مقصد",
@@ -1935,6 +1947,7 @@ sd: {
     volumeSliderAria: "اطلاع جي آواز جو درجو",
     notifBodyNow: "{prayer} جو وقت ٿي ويو آهي.",
     notifBodyLead: "{prayer} ۾ {minutes} منٽ باقي آهن.",
+    donateMiqat: "ميقات لاءِ عطيو ڏيو",
 },
 ps: {
     missionTitle: "زموږ موخه",
@@ -2084,6 +2097,7 @@ ps: {
     volumeSliderAria: "د خبرتیا د غږ کچه",
     notifBodyNow: "د {prayer} وخت شو.",
     notifBodyLead: "{prayer} ته {minutes} دقیقې پاتې دي.",
+    donateMiqat: "میقات ته مرسته وکړئ",
 },
 yo: {
     missionTitle: "Ìpinnu Wa",
@@ -2233,6 +2247,7 @@ yo: {
     volumeSliderAria: "Ìwọ̀n ohùn ìfitónilétí",
     notifBodyNow: "Àkókò {prayer} ti tó.",
     notifBodyLead: "{prayer} kù ìṣẹ́jú {minutes}.",
+    donateMiqat: "Ṣètọrẹ sí Miqat",
 },
 so: {
     missionTitle: "Ujeeddadayada",
@@ -2382,6 +2397,7 @@ so: {
     volumeSliderAria: "Heerka codka ogeysiiska",
     notifBodyNow: "Waa waqtigii {prayer}.",
     notifBodyLead: "{prayer} waxaa u haray {minutes} daqiiqo.",
+    donateMiqat: "Ku deeq Miqat",
 },
 uz: {
     missionTitle: "Bizning maqsadimiz",
@@ -2531,6 +2547,7 @@ uz: {
     volumeSliderAria: "Bildirishnoma ovozi darajasi",
     notifBodyNow: "{prayer} vaqti kirdi.",
     notifBodyLead: "{prayer} vaqtiga {minutes} daqiqa qoldi.",
+    donateMiqat: "Miqat'ga xayriya qiling",
 },
 am: {
     missionTitle: "ተልእኮአችን",
@@ -2680,6 +2697,7 @@ am: {
     volumeSliderAria: "የማሳወቂያ ድምፅ መጠን",
     notifBodyNow: "የ{prayer} ሰዓት ደርሷል።",
     notifBodyLead: "ለ{prayer} {minutes} ደቂቃ ቀርቷል።",
+    donateMiqat: "ለሚቀት ልገሳ ያድርጉ",
 },
 om: {
     missionTitle: "Kaayyoo Keenya",
@@ -2829,6 +2847,7 @@ om: {
     volumeSliderAria: "Sadarkaa sagalee beeksisaa",
     notifBodyNow: "Yeroon {prayer} ga'eera.",
     notifBodyLead: "{prayer}f daqiiqaa {minutes} hafeera.",
+    donateMiqat: "Miqaatiif arjoomi",
 },
 ff: {
     missionTitle: "Faandaare Amen",
@@ -2978,6 +2997,7 @@ ff: {
     volumeSliderAria: "Toowal hito tintinol",
     notifBodyNow: "Waqtu {prayer} arii.",
     notifBodyLead: "Heddii hojomaaji {minutes} haa {prayer}.",
+    donateMiqat: "Waɗtu Miqat",
 },
 az: {
     missionTitle: "Missiyamız",
@@ -3127,6 +3147,7 @@ az: {
     volumeSliderAria: "Bildiriş səsinin səviyyəsi",
     notifBodyNow: "{prayer} vaxtı daxil oldu.",
     notifBodyLead: "{prayer} vaxtına {minutes} dəqiqə qalıb.",
+    donateMiqat: "Miqat-a ianə edin",
 },
 kk: {
     missionTitle: "Біздің мақсатымыз",
@@ -3276,6 +3297,7 @@ kk: {
     volumeSliderAria: "Хабарландыру дыбысының деңгейі",
     notifBodyNow: "{prayer} уақыты кірді.",
     notifBodyLead: "{prayer} уақытына {minutes} минут қалды.",
+    donateMiqat: "Miqat-қа қайырымдылық жасаңыз",
 },
 ku: {
     missionTitle: "Armanca Me",
@@ -3425,6 +3447,7 @@ ku: {
     volumeSliderAria: "Asta dengê agahdariyê",
     notifBodyNow: "Wextê {prayer} hat.",
     notifBodyLead: "Ji bo {prayer} {minutes} deqîqe mane.",
+    donateMiqat: "Beşdarî Miqatê bike",
 },
 wo: {
     missionTitle: "Sunu Jubluwaay",
@@ -3574,6 +3597,7 @@ wo: {
     volumeSliderAria: "Kàttanu baatu yégle",
     notifBodyNow: "Waxtu {prayer} jot na.",
     notifBodyLead: "{prayer} des na {minutes} simili.",
+    donateMiqat: "May Miqat",
 },
 };
 
