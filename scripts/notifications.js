@@ -118,7 +118,10 @@ export async function handleNotificationAlarm(name) {
     message = tf("notifMsgAtTime", lang, { prayer: label });
   }
 
-  const withSound = !isReminder && !isPost && notif.sound && notif.volume > 0;
+  const isAdhan = !isReminder && !isPost;
+  const hasAudio = notif.sound && notif.volume > 0;
+  const withSound = isAdhan && hasAudio;
+  const withChime = (isReminder || isPost) && hasAudio;
 
   const notifId = `${prefix}${key}:${Date.now()}`;
   chrome.notifications.create(notifId, {
@@ -128,15 +131,18 @@ export async function handleNotificationAlarm(name) {
     message,
     priority: 2,
     requireInteraction: withSound,
-    buttons: withSound ? [{ title: t("notifStopAdhan", lang) }] : [],
+    buttons: withSound || withChime ? [{ title: t("notifStopAdhan", lang) }] : [],
   });
 
-  if (withSound) {
+  if (withSound || withChime) {
     chrome.storage.session.set({ activeNotifId: notifId });
-    playAdhan(notif.soundFile, notif.volume);
+    playAdhan(
+      withSound ? notif.soundFile : ATTENTION_SOUND,
+      notif.volume,
+    );
   }
-  if (isReminder) playAdhan(ATTENTION_SOUND, 1.0);
 
+  if (isReminder || isPost) playAdhan(ATTENTION_SOUND, 1.0);
   scheduleNotifications();
 }
 
