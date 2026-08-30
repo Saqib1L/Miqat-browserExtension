@@ -1,6 +1,6 @@
 {
   "name": "Miqat - Islamic Prayer Times",
-  "description": "View Fajr, Dhuhr, Asr, Maghrib, and Isha times for your city in one click.",
+  "description": "Helping muslims around the world pray on time.",
   "version": "1.0",
   "manifest_version": 3,
   "action": {
