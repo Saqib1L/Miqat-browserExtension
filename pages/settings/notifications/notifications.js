@@ -122,6 +122,8 @@ function renderPrayerCards(prayers) {
 function renderSounds(activeFile) {
   soundDropdownMenu.innerHTML = "";
 
+  let matched = false;
+
   for (const { file, key } of ADHAN_SOUNDS) {
     const label = t(key, lang);
     const option = document.createElement("button");
@@ -136,7 +138,14 @@ function renderSounds(activeFile) {
         <polyline points="20 6 9 17 4 12"></polyline>
       </svg>`;
     soundDropdownMenu.appendChild(option);
-    if (file === activeFile) soundDropdownValue.textContent = label;
+    if (file === activeFile) {
+      soundDropdownValue.textContent = label;
+      matched = true;
+    }
+  }
+
+  if (!matched) {
+    soundDropdownValue.textContent = "–";
   }
 }
 
@@ -267,6 +276,8 @@ prayerToggles.addEventListener("click", async (e) => {
 prayerToggles.addEventListener("focusin", (e) => {
   const customInput = e.target.closest(".custom-minutes-input");
   if (!customInput) return;
+
+  if (!customInput.value) return;
   const timesEl = customInput.closest(".prayer-card__times");
   timesEl?.querySelectorAll(".prayer-time-btn").forEach(b => b.classList.remove("is-active"));
   customInput.classList.add("is-active");

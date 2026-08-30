@@ -6,7 +6,7 @@ import {
   ATTENTION_SOUND,
   getNotificationSettings,
 } from "./notification-settings.js";
-import { playAdhan, stopAdhan } from "./adhan-audio.js";
+import { playAdhan, playChime, stopAdhan } from "./adhan-audio.js";
 import { getLanguage, t, tf } from "./translation.js";
 
 const PREFIX_AT = "notif:";
@@ -89,13 +89,15 @@ export async function scheduleNotifications() {
   }
 }
 
+let isRescheduling = false;
+
 export async function handleNotificationAlarm(name) {
   const isReminder = name.startsWith(PREFIX_REMINDER);
   const isPost = name.startsWith(PREFIX_POST);
   const prefix = isReminder ? PREFIX_REMINDER : isPost ? PREFIX_POST : PREFIX_AT;
   const key = name.slice(prefix.length);
-  
- if (!NOTIFIABLE_PRAYERS.some((p) => p.key === key)) return;
+
+  if (!NOTIFIABLE_PRAYERS.some((p) => p.key === key)) return;
 
   const notif = await getNotificationSettings();
   if (!notif.enabled) return;
@@ -130,22 +132,25 @@ export async function handleNotificationAlarm(name) {
     title: "Miqat",
     message,
     priority: 2,
+    
     requireInteraction: withSound,
-    buttons: withSound || withChime ? [{ title: t("notifStopAdhan", lang) }] : [],
+    buttons: withSound ? [{ title: t("notifStopAdhan", lang) }] : [],
   });
 
-  if (withSound || withChime) {
-    chrome.storage.session.set({ activeNotifId: notifId });
-    playAdhan(
-      withSound ? notif.soundFile : ATTENTION_SOUND,
-      notif.volume,
-    );
+  if (withSound) {
+    await chrome.storage.session.set({ activeNotifId: notifId, adhanPlaying: true });
+    playAdhan(notif.soundFile, notif.volume);
+  } else if (withChime) {
+    playChime(ATTENTION_SOUND, notif.volume);
   }
 
-  if (isReminder || isPost) playAdhan(ATTENTION_SOUND, 1.0);
-  scheduleNotifications();
+  if (!isRescheduling) {
+    isRescheduling = true;
+    scheduleNotifications().finally(() => { isRescheduling = false; });
+  }
 }
 
-export function handleNotificationClosed(notificationId) {
-  if (isNotificationAlarm(notificationId)) stopAdhan();
+export async function handleNotificationClosed(notificationId) {
+  const { activeNotifId } = await chrome.storage.session.get("activeNotifId");
+  if (notificationId === activeNotifId) stopAdhan();
 }

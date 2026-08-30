@@ -8,12 +8,18 @@ chrome.runtime.onMessage.addListener((msg) => {
     player.src = msg.url;
     player.volume = typeof msg.volume === 'number' ? msg.volume : 1;
     player.currentTime = 0;
-    player.play().catch((err) => console.error('Adhan playback failed:', err));
+    player.play().catch((err) => console.error('Adhan playback failed:', err.name, err.message));
     chrome.runtime.sendMessage({ type: 'adhanStarted' }).catch(() => {});
 
     player.onended = () => {
       chrome.runtime.sendMessage({ type: 'adhanFinished' }).catch(() => {});
     };
+  }
+
+  if (msg.type === 'playChime') {
+    const chime = new Audio(msg.url);
+    chime.volume = typeof msg.volume === 'number' ? msg.volume : 1;
+    chime.play().catch((err) => console.error('Chime playback failed:', err.name, err.message));
   }
 
   if (msg.type === 'stopAdhan') {

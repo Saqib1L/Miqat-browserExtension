@@ -44,6 +44,20 @@ export async function playAdhan(soundFile, volume = 1) {
   }
 }
 
+export async function playChime(soundFile, volume = 1) {
+  try {
+    await ensureOffscreen();
+    await chrome.runtime.sendMessage({
+      target: 'offscreen',
+      type: 'playChime',
+      url: chrome.runtime.getURL(`media/audio/${soundFile}`),
+      volume,
+    });
+  } catch (err) {
+    console.error('Could not play chime:', err);
+  }
+}
+
 export async function stopAdhan() {
   if (!(await hasOffscreen())) return;
   try {
