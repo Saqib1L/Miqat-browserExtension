@@ -90,11 +90,10 @@ account, no sign-in.
 
 ## 📸 Screenshots
 
-> _Add your screenshots here._
 
 | Popup | Notifications | Settings |
 | :---: | :---: | :---: |
-| ![Popup](docs/screenshot-popup.png) | ![Notifications](docs/screenshot-notifications.png) | ![Settings](docs/screenshot-settings.png) |
+| ![Popup](media/miqatScreenshot1.png) | ![Notifications](media/miqatScreenshot2.png) | ![Settings](media/miqatScreenshot3.png) |
 
 ---
 
