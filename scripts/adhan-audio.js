@@ -58,7 +58,12 @@ export async function playChime(soundFile, volume = 1) {
   }
 }
 
+export async function isAdhanActive() {
+  return hasOffscreen();
+}
+
 export async function stopAdhan() {
+  
   if (!(await hasOffscreen())) return;
   try {
     await chrome.runtime.sendMessage({ target: 'offscreen', type: 'stopAdhan' });

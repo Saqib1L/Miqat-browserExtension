@@ -90,8 +90,12 @@ function setAdhanBannerVisible(visible) {
 }
 
 async function initAdhanBanner() {
-  const result = await chrome.storage.session.get("adhanPlaying");
-  setAdhanBannerVisible(result.adhanPlaying === true);
+  try {
+    const playing = await chrome.runtime.sendMessage({ type: "queryAdhanState" });
+    setAdhanBannerVisible(playing === true);
+  } catch {
+    setAdhanBannerVisible(false);
+  }
 }
 
 els.adhanStopBtn.addEventListener("click", async () => {

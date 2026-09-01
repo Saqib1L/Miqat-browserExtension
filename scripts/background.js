@@ -1,6 +1,6 @@
 import '../lib/adhan.umd.min.js';
 import { updateBadge } from './badge.js';
-import { stopAdhan, closeAdhanPlayer } from './adhan-audio.js';
+import { stopAdhan, closeAdhanPlayer, isAdhanActive } from './adhan-audio.js';
 import {
   scheduleNotifications,
   isNotificationAlarm,
@@ -33,7 +33,20 @@ chrome.notifications.onButtonClicked.addListener((id) => {
 chrome.notifications.onClosed.addListener(handleNotificationClosed);
 chrome.notifications.onClicked.addListener(handleNotificationClosed);
 
-chrome.runtime.onMessage.addListener((msg) => {
+async function reconcileAdhanState() {
+  const active = await isAdhanActive();
+  if (!active) await chrome.storage.session.set({ adhanPlaying: false });
+  return active;
+}
+
+chrome.runtime.onStartup.addListener(reconcileAdhanState);
+
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (msg?.type === 'queryAdhanState') {
+
+    reconcileAdhanState().then(sendResponse);
+    return true;
+  }
   if (msg?.type === 'adhanStarted') {
     chrome.storage.session.set({ adhanPlaying: true });
   }
@@ -64,3 +77,4 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 
 updateBadge();
 scheduleNotifications();
+reconcileAdhanState();
