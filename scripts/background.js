@@ -50,6 +50,9 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg?.type === 'adhanStarted') {
     chrome.storage.session.set({ adhanPlaying: true });
   }
+  if (msg?.type === 'chimeFinished') {
+    closeAdhanPlayer();
+  }
   if (msg?.type === 'adhanFinished') {
     chrome.storage.session.set({ adhanPlaying: false });
     closeAdhanPlayer();

@@ -1,7 +1,12 @@
 const player = document.getElementById('player');
 
-chrome.runtime.onMessage.addListener((msg) => {
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg?.target !== 'offscreen') return;
+
+  if (msg.type === 'isPlaying') {
+    sendResponse(!player.paused && !player.ended);
+    return true;
+  }
 
   if (msg.type === 'playAdhan') {
     player.pause();
@@ -20,6 +25,9 @@ chrome.runtime.onMessage.addListener((msg) => {
     const chime = new Audio(msg.url);
     chime.volume = typeof msg.volume === 'number' ? msg.volume : 1;
     chime.play().catch((err) => console.error('Chime playback failed:', err.name, err.message));
+    chime.onended = () => {
+      chrome.runtime.sendMessage({ type: 'chimeFinished' }).catch(() => {});
+    };
   }
 
   if (msg.type === 'stopAdhan') {
